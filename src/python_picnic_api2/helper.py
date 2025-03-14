@@ -9,9 +9,7 @@ tee = "├── "
 last = "└── "
 
 IMAGE_SIZES = ["small", "medium", "regular", "large", "extra-large"]
-IMAGE_BASE_URL = (
-    "https://storefront-prod.nl.picnicinternational.com/static/images"
-)
+IMAGE_BASE_URL = "https://storefront-prod.nl.picnicinternational.com/static/images"
 
 SOLE_ARTICLE_ID_PATTERN = re.compile(r'"sole_article_id":"(\w+)"')
 
@@ -95,10 +93,7 @@ def _extract_search_results(raw_results, max_items: int = 10):
             return
 
         content = node.get("content", {})
-        if (
-            content.get("type") == "SELLING_UNIT_TILE"
-            and "sellingUnit" in content
-        ):
+        if content.get("type") == "SELLING_UNIT_TILE" and "sellingUnit" in content:
             selling_unit = content["sellingUnit"]
             sole_article_ids = SOLE_ARTICLE_ID_PATTERN.findall(json.dumps(node))
             sole_article_id = sole_article_ids[0] if sole_article_ids else None
@@ -110,6 +105,9 @@ def _extract_search_results(raw_results, max_items: int = 10):
 
         for child in node.get("children", []):
             find_articles(child)
+
+        if "child" in node:
+            find_articles(node.get("child"))
 
     body = raw_results.get("body", {})
     find_articles(body.get("child", {}))
