@@ -177,5 +177,30 @@ class PicnicAPI:
         tree = "\n".join(_tree_generator(self.get_categories(depth=depth)))
         print(tree)
 
+    def get_product_from_gtin(self, etan: str, maxRedirects: int = 5):
+
+        # Finds the product ID for a gtin/ean (barcode).
+        headers = (
+            {
+                "x-picnic-agent": "30100;1.15.272-15295;",
+                "x-picnic-did": "3C417201548B2E3B",
+            }
+        )
+        url = "https://picnic.app/" + self._country_code.lower() + "/qr/gtin/" + etan
+        while maxRedirects > 0:
+            if url == "http://picnic.app/nl/link/store/storefront":
+                # gtin unknown
+                return None
+            r = self.session.get(url, headers=headers, allow_redirects=False)
+            maxRedirects -= 1
+            if ";id=" in r.url:
+                    # found the product id
+                    return r.url.split(";id=",1)[1]
+            if "Location" not in r.headers:
+                # product id not found but also no futher redirect
+                return None
+            url = r.headers["Location"]
+        return None
+
 
 __all__ = ["PicnicAPI"]
