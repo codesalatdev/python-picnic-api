@@ -106,6 +106,14 @@ class TestClient(unittest.TestCase):
             headers=PICNIC_HEADERS,
         )
 
+    def test_get_article_by_gtin(self):
+        self.client.get_article_by_gtin("123456789")
+        self.session_mock().get.assert_called_with(
+            "https://picnic.app/nl/qr/gtin/123456789",
+            headers=PICNIC_HEADERS,
+            allow_redirects=False,
+        )
+
     def test_get_cart(self):
         self.client.get_cart()
         self.session_mock().get.assert_called_with(
