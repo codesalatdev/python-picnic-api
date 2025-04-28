@@ -1,5 +1,7 @@
 # Python-Picnic-API
 
+**This library is undergoing rapid changes as is the Picnic API itself. It is mainly intended for use within Home Assistant, but there are integration tests running regularly checking for failures in features not used bu the Home Assistant integration**
+
 Fork of the Unofficial Python wrapper for the [Picnic](https://picnic.app) API. While not all API methods have been implemented yet, you'll find most of what you need to build a working application are available. 
 
 This library is not affiliated with Picnic and retrieves data from the endpoints of the mobile application. **Use at your own risk.**
