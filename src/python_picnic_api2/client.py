@@ -15,6 +15,10 @@ DEFAULT_URL = "https://storefront-prod.{}.picnicinternational.com/api/{}"
 GLOBAL_GATEWAY_URL = "https://gateway-prod.global.picnicinternational.com"
 DEFAULT_COUNTRY_CODE = "NL"
 DEFAULT_API_VERSION = "15"
+_HEADERS = {
+    "x-picnic-agent": "30100;1.15.272-15295;",
+    "x-picnic-did": "3C417201548B2E3B",
+}
 
 
 class PicnicAPI:
@@ -47,14 +51,7 @@ class PicnicAPI:
         url = self._base_url + path
 
         # Make the request, add special picnic headers if needed
-        headers = (
-            {
-                "x-picnic-agent": "30100;1.15.272-15295;",
-                "x-picnic-did": "3C417201548B2E3B",
-            }
-            if add_picnic_headers
-            else None
-        )
+        headers = _HEADERS if add_picnic_headers else None
         response = self.session.get(url, headers=headers).json()
 
         if self._contains_auth_error(response):
@@ -177,27 +174,21 @@ class PicnicAPI:
         tree = "\n".join(_tree_generator(self.get_categories(depth=depth)))
         print(tree)
 
-    def get_product_from_gtin(self, etan: str, maxRedirects: int = 5):
+    def get_article_by_gtin(self, etan: str, maxRedirects: int = 5):
+        # Finds the article ID for a gtin/ean (barcode).
 
-        # Finds the product ID for a gtin/ean (barcode).
-        headers = (
-            {
-                "x-picnic-agent": "30100;1.15.272-15295;",
-                "x-picnic-did": "3C417201548B2E3B",
-            }
-        )
         url = "https://picnic.app/" + self._country_code.lower() + "/qr/gtin/" + etan
         while maxRedirects > 0:
             if url == "http://picnic.app/nl/link/store/storefront":
                 # gtin unknown
                 return None
-            r = self.session.get(url, headers=headers, allow_redirects=False)
+            r = self.session.get(url, headers=_HEADERS, allow_redirects=False)
             maxRedirects -= 1
             if ";id=" in r.url:
-                    # found the product id
-                    return r.url.split(";id=",1)[1]
+                # found the article id
+                return self.get_article(r.url.split(";id=", 1)[1])
             if "Location" not in r.headers:
-                # product id not found but also no futher redirect
+                # article id not found but also no futher redirect
                 return None
             url = r.headers["Location"]
         return None

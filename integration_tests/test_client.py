@@ -56,6 +56,17 @@ def test_get_article_with_category_name():
         picnic.get_article("s1018620", add_category_name=True)
 
 
+def test_get_article_by_gtin():
+    response = picnic.get_article_by_gtin("4311501044209")
+    assert response["id"] == "s1018620"
+    assert response["name"] == "Gut&Günstig H-Milch 3,5%"
+
+
+def test_get_article_by_gtin_unknown():
+    response = picnic.get_article_by_gtin("4311501040000")
+    assert response is None
+
+
 def test_get_cart():
     response = picnic.get_cart()
     assert isinstance(response, dict)
