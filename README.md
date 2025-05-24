@@ -23,7 +23,7 @@ $ pip install python-picnic-api2
 Then create a new instance of `PicnicAPI` and login using your credentials:
 
 ```python
-from python_picnic_api import PicnicAPI
+from python_picnic_api2 import PicnicAPI
 
 picnic = PicnicAPI(username='username', password='password', country_code="NL")
 ```
