@@ -114,8 +114,10 @@ class PicnicAPI:
             return None
 
         color_regex = re.compile(r"#\(#\d{6}\)")
-        producer = re.sub(color_regex, "", str(article_details[1].get("markdown", "")))
-        article_name = re.sub(color_regex, "", str(article_details[0]["markdown"]))
+        producer = re.sub(color_regex, "", str(
+            article_details[1].get("markdown", "")))
+        article_name = re.sub(color_regex, "", str(
+            article_details[0]["markdown"]))
 
         article = {"name": f"{producer} {article_name}", "id": article_id}
 

@@ -85,6 +85,28 @@ def get_image(id: str, size="regular", suffix="webp"):
     return f"{IMAGE_BASE_URL}/{id}/{size}.{suffix}"
 
 
+def find_node_by_content(node, filter):
+    def is_dict_included(node_dict, filter_dict):
+        for k, v in filter_dict.items():
+            if k not in node_dict:
+                return False
+            if isinstance(v, dict) and isinstance(node_dict[k], dict):
+                if not is_dict_included(node_dict[k], v):
+                    return False
+            elif node_dict[k] != v:
+                return False
+        return True
+
+    if is_dict_included(node, filter):
+        return node
+
+    for child in node.get("children", []):
+        find_node_by_content(child, filter)
+
+    if "child" in node:
+        find_node_by_content(node.get("child"), filter)
+
+
 def _extract_search_results(raw_results, max_items: int = 10):
     """Extract search results from the nested dictionary structure returned by
     Picnic search. Number of max items can be defined to reduce excessive nested
@@ -100,7 +122,8 @@ def _extract_search_results(raw_results, max_items: int = 10):
         content = node.get("content", {})
         if content.get("type") == "SELLING_UNIT_TILE" and "sellingUnit" in content:
             selling_unit = content["sellingUnit"]
-            sole_article_ids = SOLE_ARTICLE_ID_PATTERN.findall(json.dumps(node))
+            sole_article_ids = SOLE_ARTICLE_ID_PATTERN.findall(
+                json.dumps(node))
             sole_article_id = sole_article_ids[0] if sole_article_ids else None
             result_entry = {
                 **selling_unit,
@@ -118,6 +141,7 @@ def _extract_search_results(raw_results, max_items: int = 10):
     body = raw_results.get("body", {})
     find_articles(body.get("child", {}))
 
-    LOGGER.debug(f"Found {len(search_results)}/{max_items} products after extraction")
+    LOGGER.debug(
+        f"Found {len(search_results)}/{max_items} products after extraction")
 
     return [{"items": search_results}]
