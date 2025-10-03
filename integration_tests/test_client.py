@@ -53,7 +53,7 @@ def test_get_article():
 
 def test_get_article_with_category_name():
     with pytest.raises(NotImplementedError):
-        picnic.get_article("s1018620", add_category_name=True)
+        picnic.get_article("s1018620", add_category=True)
 
 
 def test_get_article_by_gtin():
@@ -81,7 +81,8 @@ def test_add_product():
 
     assert isinstance(response, dict)
     assert "items" in response
-    assert any(item["id"] == "s1018620" for item in response["items"][0]["items"])
+    assert any(
+        item["id"] == "s1018620" for item in response["items"][0]["items"])
     assert _get_amount(response, "s1018620") == 2
 
 

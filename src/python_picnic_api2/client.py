@@ -101,7 +101,7 @@ class PicnicAPI:
     def get_cart(self):
         return self._get("/cart")
 
-    def get_article(self, article_id: str, add_category_name=False):
+    def get_article(self, article_id: str, add_category=False):
         path = f"/pages/product-details-page-root?id={article_id}" + \
             "&show_category_action=true"
         data = self._get(path, add_picnic_headers=True)
@@ -114,7 +114,7 @@ class PicnicAPI:
             return None
 
         article = {}
-        if add_category_name:
+        if add_category:
             cat_node = find_nodes_by_content(
                 data, {"id": "category-button"}, max_nodes=1)
             if len(cat_node) == 0:
