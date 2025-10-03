@@ -112,7 +112,7 @@ def find_nodes_by_content(node, filter, max_nodes: int = 10):
                 continue
             if isinstance(v, list):
                 for item in v:
-                    if isinstance(v, (dict, list)):
+                    if isinstance(v, dict | list):
                         nodes.extend(find_nodes_by_content(
                             item, filter, max_nodes))
                         continue
