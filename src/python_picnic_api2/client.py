@@ -8,6 +8,7 @@ from .helper import (
     _extract_search_results,
     _tree_generator,
     _url_generator,
+    find_nodes_by_content,
 )
 from .session import PicnicAPISession, PicnicAuthError
 
@@ -171,6 +172,17 @@ class PicnicAPI:
 
     def get_categories(self, depth: int = 0):
         return self._get(f"/my_store?depth={depth}")["catalog"]
+
+    def get_category_by_ids(self, l2_id: int, l3_id: int):
+        path = "/pages/L2-category-page-root" + \
+            f"?category_id={l2_id}&l3_category_id={l3_id}"
+        data = self._get(path, add_picnic_headers=True)
+        nodes = find_nodes_by_content(
+            data, {"id": f"vertical-article-tiles-sub-header-{l3_id}"}, max_nodes=1)
+        if len(nodes) == 0:
+            raise KeyError("Could not find category with specified IDs")
+        return {"l2_id": l2_id, "l3_id": l3_id,
+                "name": nodes[0]["pml"]["component"]["accessibilityLabel"]}
 
     def print_categories(self, depth: int = 0):
         tree = "\n".join(_tree_generator(self.get_categories(depth=depth)))
