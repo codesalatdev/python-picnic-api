@@ -52,8 +52,10 @@ def test_get_article():
 
 
 def test_get_article_with_category_name():
-    with pytest.raises(NotImplementedError):
-        picnic.get_article("s1018620", add_category=True)
+    response = picnic.get_article("s1018620", add_category=True)
+    assert isinstance(response, dict)
+    assert "category" in response
+    assert response["category"]["name"] == "H-Milch"
 
 
 def test_get_article_by_gtin():
