@@ -163,11 +163,13 @@ class TestClient(unittest.TestCase):
         )
 
         category_patch = patch(
-            "python_picnic_api2.client.PicnicAPI.get_category_by_ids").start()
-        category_patch.return_value = {
+            "python_picnic_api2.client.PicnicAPI.get_category_by_ids")
+        category_patch.start().return_value = {
             "l2_id": 2000, "l3_id": 3000, "name": "Test"}
 
         article = self.client.get_article("p3f2qa", True)
+
+        category_patch.stop()
         self.session_mock().get.assert_called_with(
             "https://storefront-prod.nl.picnicinternational.com/api/15/pages/product-details-page-root?id=p3f2qa&show_category_action=true",
             headers=PICNIC_HEADERS,
