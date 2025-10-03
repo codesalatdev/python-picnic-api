@@ -8,8 +8,8 @@ from python_picnic_api2.client import DEFAULT_URL
 from python_picnic_api2.session import PicnicAuthError
 
 PICNIC_HEADERS = {
-    "x-picnic-agent": "30100;1.15.272-15295;",
-    "x-picnic-did": "3C417201548B2E3B",
+    "x-picnic-agent": "30100;1.206.1-#15408",
+    "x-picnic-did": "598F770380CA54B6",
 }
 
 

@@ -17,8 +17,8 @@ GLOBAL_GATEWAY_URL = "https://gateway-prod.global.picnicinternational.com"
 DEFAULT_COUNTRY_CODE = "NL"
 DEFAULT_API_VERSION = "15"
 _HEADERS = {
-    "x-picnic-agent": "30100;1.15.272-15295;",
-    "x-picnic-did": "3C417201548B2E3B",
+    "x-picnic-agent": "30100;1.206.1-#15408",
+    "x-picnic-did": "598F770380CA54B6",
 }
 
 
