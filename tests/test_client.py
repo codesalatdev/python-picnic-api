@@ -108,11 +108,74 @@ class TestClient(unittest.TestCase):
         )
 
     def test_get_article(self):
-        self.client.get_article("p3f2qa")
+        self.session_mock().get.return_value = self.MockResponse(
+            {"body": {"child": {"child": {"children": [{
+                "id": "product-details-page-root-main-container",
+                "pml": {
+                    "component": {
+                        "children": [
+                            {
+                                "markdown": "#(#333333)Goede start halvarine#(#333333)",
+                            },
+                            {
+                                "markdown": "Blue Band",
+                            },
+
+                        ]
+                    }
+                }
+            }]}}}},
+            200
+        )
+
+        article = self.client.get_article("p3f2qa")
         self.session_mock().get.assert_called_with(
             "https://storefront-prod.nl.picnicinternational.com/api/15/pages/product-details-page-root?id=p3f2qa&show_category_action=true",
             headers=PICNIC_HEADERS,
         )
+
+        self.assertEqual(
+            article, {'name': 'Blue Band Goede start halvarine', 'id': 'p3f2qa'})
+
+    def test_get_article_with_category(self):
+        self.session_mock().get.return_value = self.MockResponse(
+            {"body": {"child": {"child": {"children": [{
+                "id": "product-details-page-root-main-container",
+                "pml": {
+                    "component": {
+                        "children": [
+                            {
+                                "markdown": "#(#333333)Goede start halvarine#(#333333)",
+                            },
+                            {
+                                "markdown": "Blue Band",
+                            },
+
+                        ]
+                    }
+                }
+            },
+                {
+                "id": "category-button",
+                "pml": {"component": {"onPress": {"target": "app.picnic://categories/1000/l2/2000/l3/3000"}}}
+            }]}}}},
+            200
+        )
+
+        category_patch = patch(
+            "python_picnic_api2.client.PicnicAPI.get_category_by_ids").start()
+        category_patch.return_value = {
+            "l2_id": 2000, "l3_id": 3000, "name": "Test"}
+
+        article = self.client.get_article("p3f2qa", True)
+        self.session_mock().get.assert_called_with(
+            "https://storefront-prod.nl.picnicinternational.com/api/15/pages/product-details-page-root?id=p3f2qa&show_category_action=true",
+            headers=PICNIC_HEADERS,
+        )
+
+        self.assertEqual(
+            article, {'name': 'Blue Band Goede start halvarine', 'id': 'p3f2qa',
+                      "category": {"l2_id": 2000, "l3_id": 3000, "name": "Test"}})
 
     def test_get_article_by_gtin(self):
         self.client.get_article_by_gtin("123456789")
