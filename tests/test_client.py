@@ -110,7 +110,7 @@ class TestClient(unittest.TestCase):
     def test_get_article(self):
         self.client.get_article("p3f2qa")
         self.session_mock().get.assert_called_with(
-            "https://storefront-prod.nl.picnicinternational.com/api/15/pages/product-details-page-root?id=p3f2qa",
+            "https://storefront-prod.nl.picnicinternational.com/api/15/pages/product-details-page-root?id=p3f2qa&show_category_action=true",
             headers=PICNIC_HEADERS,
         )
 
@@ -219,6 +219,30 @@ class TestClient(unittest.TestCase):
             categories[0],
             {"type": "CATEGORY", "id": "purchases", "name": "Besteld"},
         )
+
+    def test_get_category_by_ids(self):
+        self.session_mock().get.return_value = self.MockResponse(
+            {"children": [
+                {
+                    "id": "vertical-article-tiles-sub-header-22193",
+                    "pml": {
+                        "component": {
+                            "accessibilityLabel": "Halvarine"
+                        }
+                    }
+                }
+            ]},
+            200
+        )
+
+        category = self.client.get_category_by_ids(1000, 22193)
+        self.session_mock().get.assert_called_with(
+            f"{self.expected_base_url}/pages/L2-category-page-root" +
+            "?category_id=1000&l3_category_id=22193", headers=PICNIC_HEADERS
+        )
+
+        self.assertDictEqual(
+            category, {"name": "Halvarine", "l2_id": 1000, "l3_id": 22193})
 
     def test_get_auth_exception(self):
         self.session_mock().get.return_value = self.MockResponse(
