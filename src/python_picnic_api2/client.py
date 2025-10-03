@@ -102,9 +102,8 @@ class PicnicAPI:
         return self._get("/cart")
 
     def get_article(self, article_id: str, add_category_name=False):
-        if add_category_name:
-            raise NotImplementedError()
-        path = f"/pages/product-details-page-root?id={article_id}"
+        path = f"/pages/product-details-page-root?id={article_id}" + \
+            "&show_category_action=true"
         data = self._get(path, add_picnic_headers=True)
         article_details = []
         for block in data["body"]["child"]["child"]["children"]:
@@ -114,13 +113,28 @@ class PicnicAPI:
         if len(article_details) == 0:
             return None
 
+        article = {}
+        if add_category_name:
+            cat_node = find_nodes_by_content(
+                data, {"id": "category-button"}, max_nodes=1)
+            if len(cat_node) == 0:
+                raise KeyError(
+                    f"Could not extract category from article with id {article_id}")
+            category_regex = re.compile(
+                "app\\.picnic:\\/\\/categories\\/(\\d+)\\/l2\\/(\\d+)\\/l3\\/(\\d+)")
+            cat_ids = category_regex.match(
+                cat_node[0]["pml"]["component"]["onPress"]["target"]).groups()
+            article["category"] = self.get_category_by_ids(
+                int(cat_ids[1]), int(cat_ids[2]))
+
         color_regex = re.compile(r"#\(#\d{6}\)")
         producer = re.sub(color_regex, "", str(
             article_details[1].get("markdown", "")))
         article_name = re.sub(color_regex, "", str(
             article_details[0]["markdown"]))
 
-        article = {"name": f"{producer} {article_name}", "id": article_id}
+        article["name"] = f"{producer} {article_name}"
+        article["id"] = article_id
 
         return article
 
