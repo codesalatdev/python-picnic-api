@@ -106,9 +106,13 @@ class PicnicAPI:
             "&show_category_action=true"
         data = self._get(path, add_picnic_headers=True)
         article_details = []
-        for block in data["body"]["child"]["child"]["children"]:
-            if block["id"] == "product-details-page-root-main-container":
-                article_details = block["pml"]["component"]["children"]
+
+        root_container = find_nodes_by_content(
+            data, {"id": "product-details-page-root-main-container"}, max_nodes=1)
+        if len(root_container) == 0:
+            return None
+
+        article_details = root_container[0]["pml"]["component"]["children"]
 
         if len(article_details) == 0:
             return None
