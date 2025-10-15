@@ -179,6 +179,35 @@ class TestClient(unittest.TestCase):
             article, {'name': 'Blue Band Goede start halvarine', 'id': 'p3f2qa',
                       "category": {"l2_id": 2000, "l3_id": 3000, "name": "Test"}})
 
+    def test_get_article_with_unsupported_structure(self):
+        self.session_mock().get.return_value = self.MockResponse(
+            {"body": {"child": {"child": {"children": [{
+                "id": "unsupported-root-container",
+                "pml": {
+                    "component": {
+                        "children": [
+                            {
+                                "markdown": "#(#333333)Goede start halvarine#(#333333)",
+                            },
+                            {
+                                "markdown": "Blue Band",
+                            },
+
+                        ]
+                    }
+                }
+            }]}}}},
+            200
+        )
+
+        article = self.client.get_article("p3f2qa")
+        self.session_mock().get.assert_called_with(
+            "https://storefront-prod.nl.picnicinternational.com/api/15/pages/product-details-page-root?id=p3f2qa&show_category_action=true",
+            headers=PICNIC_HEADERS,
+        )
+
+        assert article is None
+
     def test_get_article_by_gtin(self):
         self.client.get_article_by_gtin("123456789")
         self.session_mock().get.assert_called_with(
