@@ -1,9 +1,7 @@
 name: Regular Integration Tests
 
 on:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '0 0 */7 * *'
+  # * is a special character in YAML so you have to quote this string
   workflow_dispatch:
 
 jobs:
