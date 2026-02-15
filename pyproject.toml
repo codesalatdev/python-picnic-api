@@ -12,7 +12,7 @@ authors = [
   { name = "CodeSalat", email = "pypi@codesalat.dev"}
 ]
 urls = {homepage = "https://github.com/codesalatdev/python-picnic-api", repository = "https://github.com/codesalatdev/python-picnic-api"}
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 dependencies = [
   "requests>=2.24.0",
   "typing_extensions>=4.12.2"
@@ -21,7 +21,7 @@ dependencies = [
 [tool.ruff]
 line-length = 88
 indent-width = 4
-target-version = "py311"
+target-version = "py313"
 
 [tool.ruff.lint]
 select = [
