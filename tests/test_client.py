@@ -292,27 +292,8 @@ class TestClient(unittest.TestCase):
         )
 
     def test_get_categories(self):
-        self.session_mock().get.return_value = self.MockResponse(
-            {
-                "type": "MY_STORE",
-                "catalog": [
-                    {"type": "CATEGORY", "id": "purchases", "name": "Besteld"},
-                    {"type": "CATEGORY", "id": "promotions", "name": "Acties"},
-                ],
-                "user": {},
-            },
-            200,
-        )
-
-        categories = self.client.get_categories()
-        self.session_mock().get.assert_called_with(
-            self.expected_base_url + "/my_store?depth=0", headers=None
-        )
-
-        self.assertDictEqual(
-            categories[0],
-            {"type": "CATEGORY", "id": "purchases", "name": "Besteld"},
-        )
+        with pytest.raises(NotImplementedError):
+            self.client.get_categories()
 
     def test_get_category_by_ids(self):
         self.session_mock().get.return_value = self.MockResponse(
