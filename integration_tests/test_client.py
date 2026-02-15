@@ -148,12 +148,10 @@ def test_get_current_deliveries():
 
 def test_get_categories():
     with pytest.raises(NotImplementedError):
-        response = picnic.get_categories()
+        picnic.get_categories()
 
 
 def test_print_categories(capsys):
     with pytest.raises(NotImplementedError):
         picnic.print_categories()
 
-
-# TODO: add test for re-logging
