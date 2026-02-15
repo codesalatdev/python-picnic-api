@@ -189,7 +189,7 @@ class PicnicAPI:
         return self.get_deliveries(data=["CURRENT"])
 
     def get_categories(self, depth: int = 0):
-        return self._get(f"/my_store?depth={depth}")["catalog"]
+        raise new NotImplementedError("This endpoint has been removed by picnic and is no longer functional.")
 
     def get_category_by_ids(self, l2_id: int, l3_id: int):
         path = "/pages/L2-category-page-root" + \
