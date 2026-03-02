@@ -32,6 +32,27 @@ picnic = PicnicAPI(username='username', password='password', country_code="NL")
 
 The country_code parameter defaults to `NL`, but you have to change it if you live in a different country than the Netherlands (ISO 3166-1 Alpha-2). This obviously only works for countries that picnic services.
 
+### Two-factor authentication (2FA)
+
+For new logins, Picnic may require two-factor authentication. When 2FA is required, logging in raises a `Picnic2FARequired` exception. You then need to request a code and verify it:
+
+```python
+from python_picnic_api2 import PicnicAPI, Picnic2FARequired, Picnic2FAError
+
+picnic = PicnicAPI(country_code="NL")
+
+try:
+    picnic.login(username='username', password='password')
+except Picnic2FARequired:
+    # Request a code via SMS or EMAIL
+    picnic.generate_2fa_code(channel="SMS")
+
+    code = input("Enter the code you received: ")
+    picnic.verify_2fa_code(code)
+```
+
+After successful verification, the session is authenticated and you can use the API normally. If the code is invalid, `Picnic2FAError` is raised.
+
 ## Searching for an article
 
 ```python
