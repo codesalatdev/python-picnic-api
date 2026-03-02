@@ -5,7 +5,11 @@ import pytest
 
 from python_picnic_api2 import PicnicAPI
 from python_picnic_api2.client import DEFAULT_URL
-from python_picnic_api2.session import PicnicAuthError
+from python_picnic_api2.session import (
+    Picnic2FAError,
+    Picnic2FARequired,
+    PicnicAuthError,
+)
 
 PICNIC_HEADERS = {
     "x-picnic-agent": "30100;1.206.1-#15408",
@@ -15,9 +19,10 @@ PICNIC_HEADERS = {
 
 class TestClient(unittest.TestCase):
     class MockResponse:
-        def __init__(self, json_data, status_code):
+        def __init__(self, json_data, status_code, content=b"data"):
             self.json_data = json_data
             self.status_code = status_code
+            self.content = content
 
         def json(self):
             return self.json_data
@@ -42,6 +47,7 @@ class TestClient(unittest.TestCase):
                 "secret": "098f6bcd4621d373cade4e832627b4f6",
                 "client_id": 30100,
             },
+            headers=PICNIC_HEADERS,
         )
 
     def test_login_auth_token(self):
@@ -334,3 +340,86 @@ class TestClient(unittest.TestCase):
 
         with self.assertRaises(PicnicAuthError):
             self.client.clear_cart()
+
+    def test_login_requires_2fa(self):
+        response = {
+            "error": {
+                "code": "TWO_FACTOR_AUTHENTICATION_REQUIRED",
+                "message": "User must verify their second factor",
+                "details": {},
+            }
+        }
+        self.session_mock().post.return_value = self.MockResponse(response, 200)
+
+        client = PicnicAPI()
+        with self.assertRaises(Picnic2FARequired) as ctx:
+            client.login("test-user", "test-password")
+        self.assertEqual(
+            str(ctx.exception), "User must verify their second factor"
+        )
+        self.assertEqual(ctx.exception.response, response)
+
+    def test_generate_2fa_code(self):
+        self.session_mock().post.return_value = self.MockResponse(
+            None, 204, content=b""
+        )
+
+        result = self.client.generate_2fa_code()
+        self.session_mock().post.assert_called_with(
+            self.expected_base_url + "/user/2fa/generate",
+            json={"channel": "SMS"},
+            headers=PICNIC_HEADERS,
+        )
+        self.assertIsNone(result)
+
+    def test_generate_2fa_code_email(self):
+        self.session_mock().post.return_value = self.MockResponse(
+            None, 204, content=b""
+        )
+
+        self.client.generate_2fa_code(channel="EMAIL")
+        self.session_mock().post.assert_called_with(
+            self.expected_base_url + "/user/2fa/generate",
+            json={"channel": "EMAIL"},
+            headers=PICNIC_HEADERS,
+        )
+
+    def test_verify_2fa_code_success(self):
+        self.session_mock().post.return_value = self.MockResponse(
+            None, 204, content=b""
+        )
+
+        result = self.client.verify_2fa_code("123456")
+        self.session_mock().post.assert_called_with(
+            self.expected_base_url + "/user/2fa/verify",
+            json={"otp": "123456"},
+            headers=PICNIC_HEADERS,
+        )
+        self.assertIsNone(result)
+
+    def test_verify_2fa_code_invalid(self):
+        response = {
+            "error": {
+                "code": "OTP_NOT_VALID",
+                "message": "Otp is not valid",
+                "details": {},
+            }
+        }
+        self.session_mock().post.return_value = self.MockResponse(response, 200)
+
+        with self.assertRaises(Picnic2FAError) as ctx:
+            self.client.verify_2fa_code("000000")
+        self.assertEqual(str(ctx.exception), "Otp is not valid")
+        self.assertEqual(ctx.exception.code, "OTP_NOT_VALID")
+
+    def test_2fa_auth_error(self):
+        response = {
+            "error": {
+                "code": "AUTH_ERROR",
+                "message": "Authentication failed.",
+            }
+        }
+        self.session_mock().post.return_value = self.MockResponse(response, 400)
+
+        with self.assertRaises(PicnicAuthError):
+            self.client.verify_2fa_code("123456")

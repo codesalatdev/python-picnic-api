@@ -5,6 +5,30 @@ class PicnicAuthError(Exception):
     """Indicates an error when authenticating to the Picnic API."""
 
 
+class Picnic2FARequired(Exception):
+    """Indicates that two-factor authentication is required."""
+
+    def __init__(
+        self,
+        message: str = "Two-factor authentication required",
+        response: dict = None,
+    ):
+        super().__init__(message)
+        self.response = response or {}
+
+
+class Picnic2FAError(Exception):
+    """Indicates an error during two-factor authentication (e.g. invalid OTP)."""
+
+    def __init__(
+        self,
+        message: str = "Two-factor authentication failed",
+        code: str = None,
+    ):
+        super().__init__(message)
+        self.code = code
+
+
 class PicnicAPISession(Session):
     AUTH_HEADER = "x-picnic-auth"
 
@@ -52,4 +76,4 @@ class PicnicAPISession(Session):
         return response
 
 
-__all__ = ["PicnicAuthError", "PicnicAPISession"]
+__all__ = ["PicnicAuthError", "Picnic2FARequired", "Picnic2FAError", "PicnicAPISession"]

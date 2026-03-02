@@ -10,7 +10,12 @@ from .helper import (
     _url_generator,
     find_nodes_by_content,
 )
-from .session import PicnicAPISession, PicnicAuthError
+from .session import (
+    Picnic2FAError,
+    Picnic2FARequired,
+    PicnicAPISession,
+    PicnicAuthError,
+)
 
 DEFAULT_URL = "https://storefront-prod.{}.picnicinternational.com/api/{}"
 GLOBAL_GATEWAY_URL = "https://gateway-prod.global.picnicinternational.com"
@@ -60,14 +65,18 @@ class PicnicAPI:
 
         return response
 
-    def _post(self, path: str, data=None, base_url_override=None):
+    def _post(
+        self, path: str, data=None, base_url_override=None, add_picnic_headers=False
+    ):
         url = (base_url_override if base_url_override else self._base_url) + path
-        response = self.session.post(url, json=data).json()
+        kwargs = {"json": data}
+        if add_picnic_headers:
+            kwargs["headers"] = _HEADERS
+        response = self.session.post(url, **kwargs).json()
 
         if self._contains_auth_error(response):
             raise PicnicAuthError(
-                f"Picnic authentication error: \
-                    {response['error'].get('message')}"
+                f"Picnic authentication error: {response['error'].get('message')}"
             )
 
         return response
@@ -80,12 +89,82 @@ class PicnicAPI:
         error_code = response.setdefault("error", {}).get("code")
         return error_code == "AUTH_ERROR" or error_code == "AUTH_INVALID_CRED"
 
+    @staticmethod
+    def _requires_2fa(response):
+        if not isinstance(response, dict):
+            return False
+
+        error_code = response.get("error", {}).get("code")
+        return error_code == "TWO_FACTOR_AUTHENTICATION_REQUIRED"
+
     def login(self, username: str, password: str):
         path = "/user/login"
         secret = md5(password.encode("utf-8")).hexdigest()
         data = {"key": username, "secret": secret, "client_id": 30100}
 
-        return self._post(path, data)
+        response = self._post(path, data, add_picnic_headers=True)
+
+        if self._requires_2fa(response):
+            raise Picnic2FARequired(
+                message=response.get("error", {}).get(
+                    "message", "Two-factor authentication required"
+                ),
+                response=response,
+            )
+
+        return response
+
+    def _post_2fa(self, path: str, data=None):
+        """POST for 2FA endpoints that may return empty (204) or JSON error bodies."""
+        url = self._base_url + path
+        response = self.session.post(url, json=data, headers=_HEADERS)
+
+        if response.status_code == 204 or not response.content:
+            return None
+
+        json_body = response.json()
+
+        # This should not happen because password auth is already done
+        # at this point, but just in case.
+        if self._contains_auth_error(json_body):
+            raise PicnicAuthError(
+                f"Picnic authentication error: {json_body['error'].get('message')}"
+            )
+
+        error = json_body.get("error", {})
+        if error.get("code"):
+            raise Picnic2FAError(
+                message=error.get("message", "Two-factor authentication failed"),
+                code=error["code"],
+            )
+
+        return json_body
+
+    def generate_2fa_code(self, channel: str = "SMS"):
+        """Request a 2FA code to be sent via the specified channel.
+
+        Args:
+            channel: The delivery channel ("SMS" or "EMAIL").
+
+        Raises:
+            Picnic2FAError: If the server returns an error (e.g. invalid channel).
+        """
+        path = "/user/2fa/generate"
+        data = {"channel": channel}
+        self._post_2fa(path, data)
+
+    def verify_2fa_code(self, code: str):
+        """Verify the 2FA code to complete authentication.
+
+        Args:
+            code: The OTP code received via SMS or email.
+
+        Raises:
+            Picnic2FAError: If the OTP code is invalid.
+        """
+        path = "/user/2fa/verify"
+        data = {"otp": code}
+        self._post_2fa(path, data)
 
     def logged_in(self):
         return self.session.authenticated
