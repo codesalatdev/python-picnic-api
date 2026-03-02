@@ -10,7 +10,12 @@ from .helper import (
     _url_generator,
     find_nodes_by_content,
 )
-from .session import Picnic2FAError, Picnic2FARequired, PicnicAPISession, PicnicAuthError
+from .session import (
+    Picnic2FAError,
+    Picnic2FARequired,
+    PicnicAPISession,
+    PicnicAuthError,
+)
 
 DEFAULT_URL = "https://storefront-prod.{}.picnicinternational.com/api/{}"
 GLOBAL_GATEWAY_URL = "https://gateway-prod.global.picnicinternational.com"
@@ -64,8 +69,10 @@ class PicnicAPI:
         self, path: str, data=None, base_url_override=None, add_picnic_headers=False
     ):
         url = (base_url_override if base_url_override else self._base_url) + path
-        headers = _HEADERS if add_picnic_headers else None
-        response = self.session.post(url, json=data, headers=headers).json()
+        kwargs = {"json": data}
+        if add_picnic_headers:
+            kwargs["headers"] = _HEADERS
+        response = self.session.post(url, **kwargs).json()
 
         if self._contains_auth_error(response):
             raise PicnicAuthError(

@@ -42,6 +42,7 @@ class TestClient(unittest.TestCase):
                 "secret": "098f6bcd4621d373cade4e832627b4f6",
                 "client_id": 30100,
             },
+            headers=PICNIC_HEADERS,
         )
 
     def test_login_auth_token(self):
