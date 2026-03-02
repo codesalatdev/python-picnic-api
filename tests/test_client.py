@@ -5,7 +5,11 @@ import pytest
 
 from python_picnic_api2 import PicnicAPI
 from python_picnic_api2.client import DEFAULT_URL
-from python_picnic_api2.session import Picnic2FAError, Picnic2FARequired, PicnicAuthError
+from python_picnic_api2.session import (
+    Picnic2FAError,
+    Picnic2FARequired,
+    PicnicAuthError,
+)
 
 PICNIC_HEADERS = {
     "x-picnic-agent": "30100;1.206.1-#15408",
