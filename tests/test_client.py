@@ -343,11 +343,10 @@ class TestClient(unittest.TestCase):
 
     def test_login_requires_2fa(self):
         response = {
-            "error": {
-                "code": "TWO_FACTOR_AUTHENTICATION_REQUIRED",
-                "message": "User must verify their second factor",
-                "details": {},
-            }
+            "user_id": "123-456-7890",
+            "second_factor_authentication_required": True,
+            "show_second_factor_authentication_intro": False,
+            "error": {},
         }
         self.session_mock().post.return_value = self.MockResponse(response, 200)
 
@@ -355,7 +354,7 @@ class TestClient(unittest.TestCase):
         with self.assertRaises(Picnic2FARequired) as ctx:
             client.login("test-user", "test-password")
         self.assertEqual(
-            str(ctx.exception), "User must verify their second factor"
+            str(ctx.exception), "Two-factor authentication required"
         )
         self.assertEqual(ctx.exception.response, response)
 
