@@ -94,7 +94,8 @@ class PicnicAPI:
         if not isinstance(response, dict):
             return False
 
-        return "second_factor_authentication_required" in response and response["second_factor_authentication_required"] is True
+        return "second_factor_authentication_required" in response \
+        and response["second_factor_authentication_required"] is True
 
     def login(self, username: str, password: str):
         path = "/user/login"
