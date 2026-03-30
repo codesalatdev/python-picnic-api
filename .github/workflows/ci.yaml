@@ -47,7 +47,7 @@ jobs:
         uv run ruff check --output-format=github --ignore FIX
 
     - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@v6
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
     
