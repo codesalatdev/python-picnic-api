@@ -43,7 +43,7 @@ select = [
 
 [dependency-groups]
 dev = [
-    "pytest>=8.3.5",
+    "pytest>=9.0.3",
     "pytest-cov>=6.0.0",
     "python-dotenv>=1.0.1",
     "ruff>=0.9.10",
