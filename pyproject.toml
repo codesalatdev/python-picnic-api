@@ -14,7 +14,7 @@ authors = [
 urls = {homepage = "https://github.com/codesalatdev/python-picnic-api", repository = "https://github.com/codesalatdev/python-picnic-api"}
 requires-python = ">=3.13"
 dependencies = [
-  "requests>=2.24.0",
+  "requests>=2.34.2",
   "typing_extensions>=4.12.2"
 ]
 
