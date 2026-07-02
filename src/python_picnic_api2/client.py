@@ -86,7 +86,7 @@ class PicnicAPI:
         if not isinstance(response, dict):
             return False
 
-        error_code = response.setdefault("error", {}).get("code")
+        error_code = response.get("error", {}).get("code")
         return error_code == "AUTH_ERROR" or error_code == "AUTH_INVALID_CRED"
 
     @staticmethod
