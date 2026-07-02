@@ -22,7 +22,7 @@ jobs:
       run: |
         python -m ensurepip
         python -m pip install --upgrade pip
-        python -m pip install uv==0.6.6 
+        python -m pip install uv==0.6.6
 
     - name: Install dependencies
       shell: bash
@@ -30,9 +30,7 @@ jobs:
 
     - name: Test with pytest
       env:
-        USERNAME: ${{ secrets.PICNIC_USERNAME }}
-        PASSWORD: ${{ secrets.PICNIC_PASSWORD }}
+        AUTH_TOKEN: ${{ secrets.PICNIC_AUTH_TOKEN }}
         COUNTRY_CODE: ${{ secrets.PICNIC_COUNTRY_CODE }}
       run: |
         uv run pytest -v integration_tests
-   

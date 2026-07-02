@@ -8,11 +8,10 @@ from python_picnic_api2 import PicnicAPI
 
 load_dotenv()
 
-username = os.getenv("USERNAME")
-password = os.getenv("PASSWORD")
+auth_token = os.getenv("AUTH_TOKEN")
 country_code = os.getenv("COUNTRY_CODE")
 
-picnic = PicnicAPI(username, password, country_code=country_code)
+picnic = PicnicAPI(auth_token=auth_token, country_code=country_code)
 
 
 @pytest.fixture(autouse=True)
@@ -27,11 +26,16 @@ def _get_amount(cart: dict, product_id: str):
     return product["decorators"][0]["quantity"]
 
 
+def test_auth_token_valid():
+    assert picnic.logged_in(), (
+        "Auth token is invalid or expired — renew the PICNIC_AUTH_TOKEN secret"
+    )
+
+
 def test_get_user():
     response = picnic.get_user()
     assert isinstance(response, dict)
     assert "contact_email" in response
-    assert response["contact_email"] == username
 
 
 def test_search():
@@ -144,6 +148,3 @@ def test_get_delivery():
 def test_get_current_deliveries():
     response = picnic.get_current_deliveries()
     assert isinstance(response, list)
-
-
-
