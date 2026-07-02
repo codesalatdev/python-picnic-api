@@ -88,7 +88,7 @@ def get_image(id: str, size="regular", suffix="webp"):
 def find_nodes_by_content(node, filter, max_nodes: int = 10):
     nodes = []
 
-    if len(nodes) >= 10:
+    if len(nodes) >= max_nodes:
         return nodes
 
     def is_dict_included(node_dict, filter_dict):
