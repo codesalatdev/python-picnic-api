@@ -6,7 +6,6 @@ import typing_extensions
 
 from .helper import (
     _extract_search_results,
-    _tree_generator,
     _url_generator,
     find_nodes_by_content,
 )
@@ -18,7 +17,6 @@ from .session import (
 )
 
 DEFAULT_URL = "https://storefront-prod.{}.picnicinternational.com/api/{}"
-GLOBAL_GATEWAY_URL = "https://gateway-prod.global.picnicinternational.com"
 DEFAULT_COUNTRY_CODE = "NL"
 DEFAULT_API_VERSION = "15"
 _HEADERS = {
@@ -45,13 +43,6 @@ class PicnicAPI:
         # Login if not authenticated
         if not self.session.authenticated and username and password:
             self.login(username, password)
-
-        self.high_level_categories = None
-
-    def initialize_high_level_categories(self):
-        """Initialize high-level categories once to avoid multiple requests."""
-        if not self.high_level_categories:
-            self.high_level_categories = self.get_categories(depth=1)
 
     def _get(self, path: str, add_picnic_headers=False):
         url = self._base_url + path
@@ -281,10 +272,6 @@ class PicnicAPI:
             raise KeyError("Could not find category with specified IDs")
         return {"l2_id": l2_id, "l3_id": l3_id,
                 "name": nodes[0]["pml"]["component"]["accessibilityLabel"]}
-
-    def print_categories(self, depth: int = 0):
-        tree = "\n".join(_tree_generator(self.get_categories(depth=depth)))
-        print(tree)
 
     def get_article_by_gtin(self, etan: str, maxRedirects: int = 5):
         # Finds the article ID for a gtin/ean (barcode).

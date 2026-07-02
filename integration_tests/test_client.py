@@ -146,12 +146,4 @@ def test_get_current_deliveries():
     assert isinstance(response, list)
 
 
-def test_get_categories():
-    with pytest.raises(NotImplementedError):
-        picnic.get_categories()
-
-
-def test_print_categories(capsys):
-    with pytest.raises(NotImplementedError):
-        picnic.print_categories()
 
