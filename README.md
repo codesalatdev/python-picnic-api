@@ -2,7 +2,7 @@
 
 **This library is undergoing rapid changes as is the Picnic API itself. It is mainly intended for use within Home Assistant, but there are integration tests running regularly checking for failures in features not used by the Home Assistant integration.**
 
-**If you want to know why interacting with Picnic is getting harder than ever, check out their blogpost about architectural changes: https://blog.picnic.nl/adding-write-functionality-to-pages-with-self-service-apis-d09aa7dbc9c0**
+**If you want to know why interacting with Picnic is getting harder than ever, check out their blogpost about architectural changes: [https://blog.picnic.nl/adding-write-functionality-to-pages-with-self-service-apis-d09aa7dbc9c0](https://jobs.picnic.app/en/blogs/adding-write-functionality-to-pages-with-self-service-apis)**
 
 Fork of the Unofficial Python wrapper for the [Picnic](https://picnic.app) API. While not all API methods have been implemented yet, you'll find most of what you need to build a working application are available. 
 
