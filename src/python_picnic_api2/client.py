@@ -4,7 +4,7 @@ from urllib.parse import quote
 import typing_extensions
 
 from .exceptions import PicnicParseError
-from .helper import _tree_generator, _url_generator
+from .helper import _url_generator
 from .models import Article, Category, SearchResult, pml
 from .session import (
     Picnic2FAError,
