@@ -1,0 +1,62 @@
+{
+ "body": {
+  "child": {
+   "children": [
+    {
+     "type": "SELLING_UNIT_TILE",
+     "sellingUnit": {
+      "id": "s1135762",
+      "decorators": [],
+      "display_price": 1099,
+      "image_id": "4e9a59e381a1058a685d45198f12be905f5bb93181d1815b5d302f1b8ecfc018",
+      "max_count": 99,
+      "name": "Gut&Günstig Caffè Crema & Aroma",
+      "price_ranges": null,
+      "unit_quantity": "1kg"
+     },
+     "sellingUnitImageConfiguration": {
+      "derivativeType": "padded",
+      "extension": "webp",
+      "id": "4e9a59e381a1058a685d45198f12be905f5bb93181d1815b5d302f1b8ecfc018"
+     }
+    },
+    {
+     "type": "SELLING_UNIT_TILE",
+     "sellingUnit": {
+      "id": "s1019822",
+      "decorators": [],
+      "display_price": 1999,
+      "image_id": "4594f5354da33b2b0f2ddbf50ff5184d2830411ec44e8dcc455595a5b4789e62",
+      "max_count": 99,
+      "name": "Lavazza Caffè Crema e Aroma Bohnen",
+      "price_ranges": null,
+      "unit_quantity": "1kg"
+     },
+     "sellingUnitImageConfiguration": {
+      "derivativeType": "padded",
+      "extension": "webp",
+      "id": "81f13ce14df5ee2fb93297add4e1a583fa7a1001a5b6a56aa8f012d8344e56f9"
+     }
+    },
+    {
+     "type": "SELLING_UNIT_TILE",
+     "sellingUnit": {
+      "id": "s1125620",
+      "decorators": [],
+      "display_price": 899,
+      "image_id": "a85e3a2f0723f0f219d1388bd9c0622d8caf40fd830be4a0d5776ee7b4de0933",
+      "max_count": 99,
+      "name": "Eduscho Filterkaffee Klassisch gemahlen",
+      "price_ranges": null,
+      "unit_quantity": "500g"
+     },
+     "sellingUnitImageConfiguration": {
+      "derivativeType": "padded",
+      "extension": "webp",
+      "id": "008cc256f3855206f82c75a8a0f9a99003336eb4f56e9bb09fffc1053fbfbe99"
+     }
+    }
+   ]
+  }
+ }
+}

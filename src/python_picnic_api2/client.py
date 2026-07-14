@@ -1,14 +1,11 @@
-import re
 from hashlib import md5
 from urllib.parse import quote
 
 import typing_extensions
 
-from .helper import (
-    _extract_search_results,
-    _url_generator,
-    find_nodes_by_content,
-)
+from .exceptions import PicnicParseError
+from .helper import _tree_generator, _url_generator
+from .models import Article, Category, SearchResult, pml
 from .session import (
     Picnic2FAError,
     Picnic2FARequired,
@@ -163,52 +160,32 @@ class PicnicAPI:
     def get_user(self):
         return self._get("/user")
 
-    def search(self, term: str):
+    def search(self, term: str) -> SearchResult:
         path = f"/pages/search-page-results?search_term={quote(term)}"
         raw_results = self._get(path, add_picnic_headers=True)
-        return _extract_search_results(raw_results)
+        return SearchResult.from_page(raw_results)
 
     def get_cart(self):
         return self._get("/cart")
 
-    def get_article(self, article_id: str, add_category=False):
+    def get_article(self, article_id: str, add_category=False) -> Article | None:
         path = f"/pages/product-details-page-root?id={article_id}" + \
             "&show_category_action=true"
         data = self._get(path, add_picnic_headers=True)
-        article_details = []
 
-        root_container = find_nodes_by_content(
-            data, {"id": "product-details-page-root-main-container"}, max_nodes=1)
-        if len(root_container) == 0:
+        article = Article.from_page(data, article_id)
+        if article is None:
             return None
 
-        article_details = root_container[0]["pml"]["component"]["children"]
-
-        if len(article_details) == 0:
-            return None
-
-        article = {}
         if add_category:
-            cat_node = find_nodes_by_content(
-                data, {"id": "category-button"}, max_nodes=1)
-            if len(cat_node) == 0:
-                raise KeyError(
-                    f"Could not extract category from article with id {article_id}")
-            category_regex = re.compile(
-                "app\\.picnic:\\/\\/categories\\/(\\d+)\\/l2\\/(\\d+)\\/l3\\/(\\d+)")
-            cat_ids = category_regex.match(
-                cat_node[0]["pml"]["component"]["onPress"]["target"]).groups()
-            article["category"] = self.get_category_by_ids(
-                int(cat_ids[1]), int(cat_ids[2]))
-
-        color_regex = re.compile(r"#\(#\d{6}\)")
-        producer = re.sub(color_regex, "", str(
-            article_details[1].get("markdown", "")))
-        article_name = re.sub(color_regex, "", str(
-            article_details[0]["markdown"]))
-
-        article["name"] = f"{producer} {article_name}"
-        article["id"] = article_id
+            cat_ids = Article.category_ids_from_page(data)
+            if cat_ids is None:
+                raise PicnicParseError(
+                    f"Could not extract category from article with id {article_id}",
+                    endpoint="product-details-page-root",
+                )
+            _, l2_id, l3_id = cat_ids
+            article.category = self.get_category_by_ids(l2_id, l3_id)
 
         return article
 
@@ -262,16 +239,20 @@ class PicnicAPI:
         raise NotImplementedError("This endpoint has been removed by picnic\
         and is no longer functional.")
 
-    def get_category_by_ids(self, l2_id: int, l3_id: int):
+    def get_category_by_ids(self, l2_id: int, l3_id: int) -> Category:
         path = "/pages/L2-category-page-root" + \
             f"?category_id={l2_id}&l3_category_id={l3_id}"
         data = self._get(path, add_picnic_headers=True)
-        nodes = find_nodes_by_content(
-            data, {"id": f"vertical-article-tiles-sub-header-{l3_id}"}, max_nodes=1)
-        if len(nodes) == 0:
-            raise KeyError("Could not find category with specified IDs")
-        return {"l2_id": l2_id, "l3_id": l3_id,
-                "name": nodes[0]["pml"]["component"]["accessibilityLabel"]}
+        node = pml.find(
+            data, id=f"vertical-article-tiles-sub-header-{l3_id}")
+        if node is None:
+            raise PicnicParseError(
+                "Could not find category with specified IDs",
+                endpoint="L2-category-page-root",
+            )
+        return Category(
+            l2_id=l2_id, l3_id=l3_id,
+            name=pml.accessibility_label(node), raw=data)
 
     def get_article_by_gtin(self, etan: str, maxRedirects: int = 5):
         # Finds the article ID for a gtin/ean (barcode).

@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pytest
 
-from python_picnic_api2 import PicnicAPI
+from python_picnic_api2 import Category, PicnicAPI
 from python_picnic_api2.client import DEFAULT_URL
 from python_picnic_api2.session import (
     Picnic2FAError,
@@ -98,14 +98,33 @@ class TestClient(unittest.TestCase):
         self.assertDictEqual(user, response)
 
     def test_search(self):
-        self.client.search("test-product")
+        self.session_mock().get.return_value = self.MockResponse(
+            {"body": {"child": {"children": [{
+                "type": "SELLING_UNIT_TILE",
+                "sellingUnit": {
+                    "id": "s1019822",
+                    "name": "Lavazza",
+                    "display_price": 1799,
+                    "unit_quantity": "1kg",
+                },
+            }]}}},
+            200,
+        )
+        result = self.client.search("test-product")
         self.session_mock().get.assert_called_with(
             self.expected_base_url
             + "/pages/search-page-results?search_term=test-product",
             headers=PICNIC_HEADERS,
         )
+        self.assertEqual(len(result.items), 1)
+        self.assertEqual(result.items[0].id, "s1019822")
+        self.assertEqual(result.items[0].name, "Lavazza")
+        self.assertEqual(result.items[0].display_price, 1799)
 
     def test_search_encoding(self):
+        self.session_mock().get.return_value = self.MockResponse(
+            {"body": {"child": {}}}, 200
+        )
         self.client.search("Gut&Günstig H-Milch")
         self.session_mock().get.assert_called_with(
             self.expected_base_url
@@ -140,8 +159,8 @@ class TestClient(unittest.TestCase):
             headers=PICNIC_HEADERS,
         )
 
-        self.assertEqual(
-            article, {'name': 'Blue Band Goede start halvarine', 'id': 'p3f2qa'})
+        self.assertEqual(article.id, "p3f2qa")
+        self.assertEqual(article.name, "Blue Band Goede start halvarine")
 
     def test_get_article_with_category(self):
         self.session_mock().get.return_value = self.MockResponse(
@@ -170,8 +189,8 @@ class TestClient(unittest.TestCase):
 
         category_patch = patch(
             "python_picnic_api2.client.PicnicAPI.get_category_by_ids")
-        category_patch.start().return_value = {
-            "l2_id": 2000, "l3_id": 3000, "name": "Test"}
+        category_patch.start().return_value = Category(
+            l2_id=2000, l3_id=3000, name="Test")
 
         article = self.client.get_article("p3f2qa", True)
 
@@ -181,9 +200,11 @@ class TestClient(unittest.TestCase):
             headers=PICNIC_HEADERS,
         )
 
-        self.assertEqual(
-            article, {'name': 'Blue Band Goede start halvarine', 'id': 'p3f2qa',
-                      "category": {"l2_id": 2000, "l3_id": 3000, "name": "Test"}})
+        self.assertEqual(article.id, "p3f2qa")
+        self.assertEqual(article.name, "Blue Band Goede start halvarine")
+        self.assertEqual(article.category.l2_id, 2000)
+        self.assertEqual(article.category.l3_id, 3000)
+        self.assertEqual(article.category.name, "Test")
 
     def test_get_article_with_unsupported_structure(self):
         self.session_mock().get.return_value = self.MockResponse(
@@ -322,8 +343,9 @@ class TestClient(unittest.TestCase):
             "?category_id=1000&l3_category_id=22193", headers=PICNIC_HEADERS
         )
 
-        self.assertDictEqual(
-            category, {"name": "Halvarine", "l2_id": 1000, "l3_id": 22193})
+        self.assertEqual(category.name, "Halvarine")
+        self.assertEqual(category.l2_id, 1000)
+        self.assertEqual(category.l3_id, 22193)
 
     def test_get_auth_exception(self):
         self.session_mock().get.return_value = self.MockResponse(

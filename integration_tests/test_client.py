@@ -4,7 +4,7 @@ import time
 import pytest
 from dotenv import load_dotenv
 
-from python_picnic_api2 import PicnicAPI
+from python_picnic_api2 import Article, PicnicAPI, SearchResult
 
 load_dotenv()
 
@@ -40,32 +40,29 @@ def test_get_user():
 
 def test_search():
     response = picnic.search("kaffee")
-    assert isinstance(response, list)
-    assert isinstance(response[0], dict)
-    assert "items" in response[0]
-    assert isinstance(response[0]["items"], list)
-    assert "id" in response[0]["items"][0]
+    assert isinstance(response, SearchResult)
+    assert isinstance(response.items, list)
+    assert response.items[0].id
 
 
 def test_get_article():
     response = picnic.get_article("s1018620")
-    assert isinstance(response, dict)
-    assert "id" in response
-    assert response["id"] == "s1018620"
-    assert response["name"] == "Gut&Günstig H-Milch 3,5%"
+    assert isinstance(response, Article)
+    assert response.id == "s1018620"
+    assert response.name == "Gut&Günstig H-Milch 3,5%"
 
 
 def test_get_article_with_category_name():
     response = picnic.get_article("s1018620", add_category=True)
-    assert isinstance(response, dict)
-    assert "category" in response
-    assert response["category"]["name"] == "H-Milch"
+    assert isinstance(response, Article)
+    assert response.category is not None
+    assert response.category.name == "H-Milch"
 
 
 def test_get_article_by_gtin():
     response = picnic.get_article_by_gtin("4311501044209")
-    assert response["id"] == "s1018620"
-    assert response["name"] == "Gut&Günstig H-Milch 3,5%"
+    assert response.id == "s1018620"
+    assert response.name == "Gut&Günstig H-Milch 3,5%"
 
 
 def test_get_article_by_gtin_unknown():

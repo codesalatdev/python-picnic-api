@@ -53,32 +53,53 @@ except Picnic2FARequired:
 
 After successful verification, the session is authenticated and you can use the API normally. If the code is invalid, `Picnic2FAError` is raised.
 
+## Typed models (2.0)
+
+As of 2.0 the "page" endpoints that Picnic now serves as a layout tree of widgets
+(`search`, `get_article`, `get_category_by_ids`) return typed [pydantic](https://docs.pydantic.dev)
+models instead of raw dicts. Every model exposes `.raw` with the original,
+untouched payload as an escape hatch for data that isn't modelled yet, and
+`.model_dump()` for a plain-dict view. See the [migration notes](#migrating-from-1x-to-20).
+
 ## Searching for an article
 
 ```python
-picnic.search('coffee')
-```
-
-```python
-[{'items': [{'id': 's1019822', 'name': 'Lavazza Caffè Crema e Aroma Bohnen', 'decorators': [], 'display_price': 1799, 'image_id': 'aecbf7d3b018025ec78daf5a1099b6842a860a2e3faeceec777c13d708ce442c', 'max_count': 99, 'unit_quantity': '1kg', 'sole_article_id': None}, ... ]}]
+result = picnic.search('coffee')          # -> SearchResult
+result.items[0].name                        # 'Lavazza Caffè Crema e Aroma Bohnen'
+result.items[0].display_price               # 1799
+result.items[0].raw                         # original tile payload
 ```
 
 ## Get article by ID
 
 ```python
-picnic.get_article("s1019822")
-```
-```python
-{'name': 'Lavazza Caffè Crema e Aroma Bohnen', 'id': 's1019822'}
+article = picnic.get_article("s1019822")   # -> Article | None
+article.id                                  # 's1019822'
+article.name                                # 'Lavazza Caffè Crema e Aroma Bohnen'
+
+# Optionally resolve the article's category (an extra request):
+article = picnic.get_article("s1019822", add_category=True)
+article.category.name                       # 'Koffiebonen'
 ```
 
 ## Get article by GTIN (EAN)
 ```python
-picnic.get_article_by_gtin("8000070025400")
+article = picnic.get_article_by_gtin("8000070025400")  # -> Article | None
+article.name                                # 'Lavazza Caffè Crema e Aroma Bohnen'
 ```
-```python
-{'name': 'Lavazza Caffè Crema e Aroma Bohnen', 'id': 's1019822'}
-```
+
+## Migrating from 1.x to 2.0
+
+- `search()` now returns a `SearchResult` (`.items` is a list of `SearchResultItem`)
+  instead of `[{"items": [...]}]`.
+- `get_article()` / `get_article_by_gtin()` now return an `Article` (or `None`)
+  instead of a `dict`; use `.id` / `.name` / `.category` instead of key access.
+- `get_category_by_ids()` now returns a `Category` instead of a `dict`.
+- Missing/unexpected PML nodes now raise `PicnicParseError` (from
+  `python_picnic_api2`) instead of a bare `KeyError`.
+- All other methods (`get_cart`, `get_deliveries`, `get_user`, …) still return
+  raw dicts for now; models for those will land in a follow-up release.
+- Any field you need that isn't modelled yet is available on `model.raw`.
 
 ## Check cart
 

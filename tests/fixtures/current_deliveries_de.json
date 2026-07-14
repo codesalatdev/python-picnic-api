@@ -1,0 +1,29 @@
+[
+ {
+  "delivery_id": "d0000000000",
+  "creation_time": "2026-07-14T22:36:46.115+02:00",
+  "slot": {
+   "slot_id": "s000000000000000000000000",
+   "hub_id": "ABC",
+   "fc_id": "FC0",
+   "window_start": "2026-07-15T14:15:00.000+02:00",
+   "window_end": "2026-07-15T16:15:00.000+02:00",
+   "cut_off_time": "2026-07-14T23:00:00.000+02:00",
+   "is_available": true,
+   "selected": true,
+   "reserved": true,
+   "slot_characteristics": []
+  },
+  "status": "CURRENT",
+  "orders": [
+   {
+    "type": "ORDER",
+    "id": "000-000-0000",
+    "creation_time": "2026-07-14T22:36:46.131+02:00",
+    "total_price": 4996,
+    "status": "CURRENT",
+    "cancellation_time": null
+   }
+  ]
+ }
+]
