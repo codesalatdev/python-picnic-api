@@ -35,10 +35,6 @@ jobs:
       run: uv sync
 
     - name: Test with pytest
-      env:
-        USERNAME: ${{ secrets.PICNIC_USERNAME }}
-        PASSWORD: ${{ secrets.PICNIC_PASSWORD }}
-        COUNTRY_CODE: ${{ secrets.PICNIC_COUNTRY_CODE }}
       run: |
         uv run pytest tests/ --cov --cov-report=xml
         
