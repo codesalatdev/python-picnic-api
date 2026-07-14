@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from python_picnic_api2.models import Article, SearchResult
+from python_picnic_api2.models import Article, SearchResult, pml
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -46,6 +46,38 @@ def test_product_details_page_de_real():
 def test_product_details_category_ids_de_real():
     data = _load("product_details_page_de.json")
     assert Article.category_ids_from_page(data) == (24410, 19400, 19626)
+
+
+def test_search_page_nl_real():
+    result = SearchResult.from_page(_load("search_page_nl.json"))
+    assert len(result.items) >= 1
+    first = result.items[0]
+    assert first.id == "s1016222"
+    assert first.name == "Picnic aromatico filterkoffie"
+    assert isinstance(first.display_price, int)
+
+
+def test_product_details_page_nl_real():
+    data = _load("product_details_page_nl.json")
+    article = Article.from_page(data, "s1016222")
+    assert article is not None
+    assert article.product_name == "Aromatico filterkoffie"
+    assert article.producer == "Picnic"
+    assert article.name == "Picnic Aromatico filterkoffie"
+    assert article.unit_quantity == "500 gram"
+
+
+def test_product_details_category_ids_nl_real():
+    data = _load("product_details_page_nl.json")
+    assert Article.category_ids_from_page(data) == (21738, 21887, 22600)
+
+
+def test_category_page_nl_real():
+    # Mirrors client.get_category_by_ids: find the L3 sub-header, read its label.
+    data = _load("category_page_nl.json")
+    node = pml.find(data, id="vertical-article-tiles-sub-header-22600")
+    assert node is not None
+    assert pml.accessibility_label(node) == "Regular"
 
 
 # The delivery endpoints still return raw dicts (no model yet). These fixtures

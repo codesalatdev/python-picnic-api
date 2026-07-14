@@ -1,0 +1,62 @@
+{
+ "body": {
+  "child": {
+   "children": [
+    {
+     "type": "SELLING_UNIT_TILE",
+     "sellingUnit": {
+      "id": "s1016222",
+      "decorators": [],
+      "display_price": 799,
+      "image_id": "cde78c1e46da90d2406c017c372833cd131384c6dddee7772d33aa047c767b4d",
+      "max_count": 99,
+      "name": "Picnic aromatico filterkoffie",
+      "price_ranges": null,
+      "unit_quantity": "500 gram"
+     },
+     "sellingUnitImageConfiguration": {
+      "derivativeType": "padded",
+      "extension": "webp",
+      "id": "d5d9672b5577e31e8a87d44a72954132e441ccab2ca7213b8e712cc7c3143375"
+     }
+    },
+    {
+     "type": "SELLING_UNIT_TILE",
+     "sellingUnit": {
+      "id": "s1140995",
+      "decorators": [],
+      "display_price": 565,
+      "image_id": "c689a8a13efd839245607d38d8cf40e6031d7022310db9bc0ae2b9f2f8ac723a",
+      "max_count": 99,
+      "name": "Picnic Caffè Luca classic",
+      "price_ranges": null,
+      "unit_quantity": "500 gram"
+     },
+     "sellingUnitImageConfiguration": {
+      "derivativeType": "padded",
+      "extension": "webp",
+      "id": "c689a8a13efd839245607d38d8cf40e6031d7022310db9bc0ae2b9f2f8ac723a"
+     }
+    },
+    {
+     "type": "SELLING_UNIT_TILE",
+     "sellingUnit": {
+      "id": "s1001546",
+      "decorators": [],
+      "display_price": 999,
+      "image_id": "efb3eeeb12daa14d2238d8749e72a8fb62ca68e536d7bad3971083a855ac3c5f",
+      "max_count": 50,
+      "name": "Douwe Egberts aroma rood filterkoffie",
+      "price_ranges": null,
+      "unit_quantity": "500 gram"
+     },
+     "sellingUnitImageConfiguration": {
+      "derivativeType": "padded",
+      "extension": "webp",
+      "id": "72b843da50886f1fe435c41dfd3877565406500636e656003fc70412b63589d8"
+     }
+    }
+   ]
+  }
+ }
+}
