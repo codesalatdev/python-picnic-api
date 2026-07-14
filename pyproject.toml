@@ -46,7 +46,7 @@ dev = [
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "python-dotenv>=1.2.2",
-    "ruff>=0.15.10",
+    "ruff>=0.15.21",
 ]
 
 [build-system]
