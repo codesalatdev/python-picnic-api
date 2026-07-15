@@ -13,8 +13,9 @@ dicts nested inside lists.
 import re
 from collections.abc import Iterator
 
-# Inline color codes embedded in markdown text, e.g. ``#(#333333)Some text#(#333333)``.
-_COLOR_CODE = re.compile(r"#\(#[0-9A-Fa-f]{6}\)")
+# Inline color codes embedded in markdown text. Picnic uses two forms: a hex code
+# ``#(#333333)Some text#(#333333)`` and a named palette code ``#(GREEN1)...#(GREEN1)``.
+_COLOR_CODE = re.compile(r"#\((?:#[0-9A-Fa-f]{6}|[A-Z][A-Z0-9_]*)\)")
 
 
 def walk(node) -> Iterator[dict]:

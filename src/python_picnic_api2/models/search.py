@@ -11,12 +11,17 @@ _SOLE_ARTICLE_ID_PATTERN = re.compile(r'"sole_article_id":"(\w+)"')
 
 
 class SearchResultItem(PicnicModel):
-    """A single product tile in a search result."""
+    """A single product tile in a search result.
+
+    Picnic's tile payload only carries ``display_price`` (the price shown on the
+    tile, in integer cents) — there is no separate ``price`` key — so that is the
+    field to read. ``price_ranges`` is populated instead of ``display_price`` for
+    some promotional tiles.
+    """
 
     id: str
     name: str | None = None
     display_price: int | None = None
-    price: int | None = None
     image_id: str | None = None
     unit_quantity: str | None = None
     unit_quantity_sub: str | None = None

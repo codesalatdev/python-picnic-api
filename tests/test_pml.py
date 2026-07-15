@@ -51,6 +51,9 @@ def test_strip_colors():
     assert pml.strip_colors("#(#AbCdEf)Milk") == "Milk"
     assert pml.strip_colors("plain") == "plain"
     assert pml.strip_colors(None) is None
+    # Named palette codes (e.g. #(GREEN1)) are stripped too; bold markdown stays.
+    assert pml.strip_colors("#(GREEN1)**fresh**#(GREEN1)") == "**fresh**"
+    assert pml.strip_colors("#(RED)Sale#(RED) now") == "Sale now"
 
 
 def test_text_of_strips_colors():

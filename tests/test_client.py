@@ -95,7 +95,12 @@ class TestClient(unittest.TestCase):
         self.session_mock().get.assert_called_with(
             self.expected_base_url + "/user", headers=None
         )
-        self.assertDictEqual(user, response)
+        self.assertEqual(user.user_id, "594-241-3623")
+        self.assertEqual(user.firstname, "Firstname")
+        self.assertEqual(user.address.city, "Het dorp")
+        self.assertEqual(user.total_deliveries, 25)
+        # .raw preserves the untouched payload.
+        self.assertEqual(user.raw, response)
 
     def test_search(self):
         self.session_mock().get.return_value = self.MockResponse(
@@ -244,19 +249,31 @@ class TestClient(unittest.TestCase):
         )
 
     def test_get_cart(self):
-        self.client.get_cart()
+        self.session_mock().get.return_value = self.MockResponse(
+            {"type": "ORDER", "id": "shopping_cart", "total_count": 3}, 200
+        )
+        cart = self.client.get_cart()
         self.session_mock().get.assert_called_with(
             self.expected_base_url + "/cart", headers=None
         )
+        self.assertEqual(cart.type, "ORDER")
+        self.assertEqual(cart.total_count, 3)
 
     def test_add_product(self):
-        self.client.add_product("p3f2qa")
+        self.session_mock().post.return_value = self.MockResponse(
+            {"type": "ORDER", "id": "shopping_cart"}, 200
+        )
+        cart = self.client.add_product("p3f2qa")
         self.session_mock().post.assert_called_with(
             self.expected_base_url + "/cart/add_product",
             json={"product_id": "p3f2qa", "count": 1},
         )
+        self.assertEqual(cart.type, "ORDER")
 
     def test_add_multiple_products(self):
+        self.session_mock().post.return_value = self.MockResponse(
+            {"type": "ORDER"}, 200
+        )
         self.client.add_product("gs4puhf3a", count=5)
         self.session_mock().post.assert_called_with(
             self.expected_base_url + "/cart/add_product",
@@ -264,6 +281,9 @@ class TestClient(unittest.TestCase):
         )
 
     def test_remove_product(self):
+        self.session_mock().post.return_value = self.MockResponse(
+            {"type": "ORDER"}, 200
+        )
         self.client.remove_product("gs4puhf3a", count=5)
         self.session_mock().post.assert_called_with(
             self.expected_base_url + "/cart/remove_product",
@@ -271,22 +291,36 @@ class TestClient(unittest.TestCase):
         )
 
     def test_clear_cart(self):
-        self.client.clear_cart()
+        self.session_mock().post.return_value = self.MockResponse(
+            {"type": "ORDER"}, 200
+        )
+        cart = self.client.clear_cart()
         self.session_mock().post.assert_called_with(
             self.expected_base_url + "/cart/clear", json=None
         )
+        self.assertEqual(cart.type, "ORDER")
 
     def test_get_delivery_slots(self):
-        self.client.get_delivery_slots()
+        self.session_mock().get.return_value = self.MockResponse(
+            {"delivery_slots": [{"slot_id": "abc"}], "selected_slot": None}, 200
+        )
+        slots = self.client.get_delivery_slots()
         self.session_mock().get.assert_called_with(
             self.expected_base_url + "/cart/delivery_slots", headers=None
         )
+        self.assertEqual(slots.delivery_slots[0].slot_id, "abc")
 
     def test_get_delivery(self):
-        self.client.get_delivery("3fpawshusz3")
+        self.session_mock().get.return_value = self.MockResponse(
+            {"type": "DELIVERY", "delivery_id": "3fpawshusz3", "status": "CURRENT"},
+            200,
+        )
+        delivery = self.client.get_delivery("3fpawshusz3")
         self.session_mock().get.assert_called_with(
             self.expected_base_url + "/deliveries/3fpawshusz3", headers=None
         )
+        self.assertEqual(delivery.delivery_id, "3fpawshusz3")
+        self.assertEqual(delivery.status, "CURRENT")
 
     def test_get_delivery_scenario(self):
         self.client.get_delivery_scenario("3fpawshusz3")
@@ -303,20 +337,27 @@ class TestClient(unittest.TestCase):
         )
 
     def test_get_deliveries_summary(self):
-        self.client.get_deliveries()
+        self.session_mock().post.return_value = self.MockResponse([], 200)
+        result = self.client.get_deliveries()
         self.session_mock().post.assert_called_with(
             self.expected_base_url + "/deliveries/summary", json=[]
         )
+        self.assertEqual(result, [])
 
     def test_get_deliveries(self):
         with pytest.raises(NotImplementedError):
             self.client.get_deliveries(summary=False)
 
     def test_get_current_deliveries(self):
-        self.client.get_current_deliveries()
+        self.session_mock().post.return_value = self.MockResponse(
+            [{"delivery_id": "d1", "status": "CURRENT"}], 200
+        )
+        result = self.client.get_current_deliveries()
         self.session_mock().post.assert_called_with(
             self.expected_base_url + "/deliveries/summary", json=["CURRENT"]
         )
+        self.assertEqual(result[0].delivery_id, "d1")
+        self.assertEqual(result[0].status, "CURRENT")
 
     def test_get_categories(self):
         with pytest.raises(NotImplementedError):

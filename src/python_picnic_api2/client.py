@@ -5,7 +5,17 @@ import typing_extensions
 
 from .exceptions import PicnicParseError
 from .helper import _url_generator
-from .models import Article, Category, SearchResult, pml
+from .models import (
+    Article,
+    Cart,
+    Category,
+    Delivery,
+    DeliverySlots,
+    DeliverySummary,
+    SearchResult,
+    User,
+    pml,
+)
 from .session import (
     Picnic2FAError,
     Picnic2FARequired,
@@ -157,16 +167,16 @@ class PicnicAPI:
     def logged_in(self):
         return self.session.authenticated
 
-    def get_user(self):
-        return self._get("/user")
+    def get_user(self) -> User:
+        return User.from_api(self._get("/user"))
 
     def search(self, term: str) -> SearchResult:
         path = f"/pages/search-page-results?search_term={quote(term)}"
         raw_results = self._get(path, add_picnic_headers=True)
         return SearchResult.from_page(raw_results)
 
-    def get_cart(self):
-        return self._get("/cart")
+    def get_cart(self) -> Cart:
+        return Cart.from_api(self._get("/cart"))
 
     def get_article(self, article_id: str, add_category=False) -> Article | None:
         path = f"/pages/product-details-page-root?id={article_id}" + \
@@ -190,32 +200,49 @@ class PicnicAPI:
         return article
 
     def get_article_category(self, article_id: str):
+        """Return the raw category payload for an article.
+
+        Not modelled: this endpoint appears to have been removed by Picnic (it
+        returns an error object, like ``get_categories``). Kept for backwards
+        compatibility; returns the raw dict. Use ``get_article(id,
+        add_category=True)`` to resolve an article's category instead.
+        """
         path = "/articles/" + article_id + "/category"
         return self._get(path)
 
-    def add_product(self, product_id: str, count: int = 1):
+    def add_product(self, product_id: str, count: int = 1) -> Cart:
         data = {"product_id": product_id, "count": count}
-        return self._post("/cart/add_product", data)
+        return Cart.from_api(self._post("/cart/add_product", data))
 
-    def remove_product(self, product_id: str, count: int = 1):
+    def remove_product(self, product_id: str, count: int = 1) -> Cart:
         data = {"product_id": product_id, "count": count}
-        return self._post("/cart/remove_product", data)
+        return Cart.from_api(self._post("/cart/remove_product", data))
 
-    def clear_cart(self):
-        return self._post("/cart/clear")
+    def clear_cart(self) -> Cart:
+        return Cart.from_api(self._post("/cart/clear"))
 
-    def get_delivery_slots(self):
-        return self._get("/cart/delivery_slots")
+    def get_delivery_slots(self) -> DeliverySlots:
+        return DeliverySlots.from_api(self._get("/cart/delivery_slots"))
 
-    def get_delivery(self, delivery_id: str):
+    def get_delivery(self, delivery_id: str) -> Delivery:
         path = "/deliveries/" + delivery_id
-        return self._get(path)
+        return Delivery.from_api(self._get(path))
 
     def get_delivery_scenario(self, delivery_id: str):
+        """Return the raw driving-scenario payload for a delivery.
+
+        Not modelled: it is only populated while a delivery is en route, so
+        there is no stable sample to build a model against. Returns the raw dict.
+        """
         path = "/deliveries/" + delivery_id + "/scenario"
         return self._get(path, add_picnic_headers=True)
 
     def get_delivery_position(self, delivery_id: str):
+        """Return the raw driver-position payload for a delivery.
+
+        Not modelled: only populated while a delivery is en route (otherwise
+        empty). Returns the raw dict.
+        """
         path = "/deliveries/" + delivery_id + "/position"
         return self._get(path, add_picnic_headers=True)
 
@@ -226,13 +253,16 @@ class PicnicAPI:
         You can ignore this warning if you do not pass the 'summary' argument to
         this function."""
     )
-    def get_deliveries(self, summary: bool = True, data: list = None):
+    def get_deliveries(
+        self, summary: bool = True, data: list = None
+    ) -> list[DeliverySummary]:
         data = [] if data is None else data
         if not summary:
             raise NotImplementedError()
-        return self._post("/deliveries/summary", data=data)
+        raw = self._post("/deliveries/summary", data=data)
+        return [DeliverySummary.from_api(item) for item in raw]
 
-    def get_current_deliveries(self):
+    def get_current_deliveries(self) -> list[DeliverySummary]:
         return self.get_deliveries(data=["CURRENT"])
 
     def get_categories(self, depth: int = 0):

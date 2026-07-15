@@ -1,6 +1,10 @@
 """Shared base class for all Picnic data models."""
 
+from typing import TypeVar
+
 from pydantic import BaseModel, ConfigDict, Field, SkipValidation
+
+_T = TypeVar("_T", bound="PicnicModel")
 
 
 class PicnicModel(BaseModel):
@@ -20,6 +24,19 @@ class PicnicModel(BaseModel):
     model_config = ConfigDict(extra="ignore", populate_by_name=True)
 
     raw: SkipValidation[dict | None] = Field(default=None, exclude=True, repr=False)
+
+    @classmethod
+    def from_api(cls: type[_T], data: dict) -> _T:
+        """Validate a raw domain-JSON payload and keep it verbatim on :attr:`raw`.
+
+        The shared constructor for the "clean JSON" endpoints (user, cart,
+        deliveries, …), analogous to the ``from_page`` builders the PML models
+        use. ``data`` is attached untouched so callers keep an escape hatch to
+        anything not modelled yet.
+        """
+        obj = cls.model_validate(data)
+        obj.raw = data
+        return obj
 
 
 __all__ = ["PicnicModel"]
