@@ -4,7 +4,7 @@
 
 **If you want to know why interacting with Picnic is getting harder than ever, check out their blogpost about architectural changes: [https://blog.picnic.nl/adding-write-functionality-to-pages-with-self-service-apis-d09aa7dbc9c0](https://jobs.picnic.app/en/blogs/adding-write-functionality-to-pages-with-self-service-apis)**
 
-Fork of the Unofficial Python wrapper for the [Picnic](https://picnic.app) API. While not all API methods have been implemented yet, you'll find most of what you need to build a working application are available. 
+Fork of the Unofficial Python wrapper for the [Picnic](https://picnic.app) API. While not all API methods have been implemented yet, you'll find most of what you need to build a working application is available.
 
 This library is not affiliated with Picnic and retrieves data from the endpoints of the mobile application. **Use at your own risk.**
 
@@ -62,14 +62,18 @@ domain-JSON endpoints (`get_user`, `get_cart`, `get_delivery_slots`,
 `get_delivery`, `get_deliveries` / `get_current_deliveries`, and the cart-mutation
 methods). Every model exposes `.raw` with the original, untouched payload as an
 escape hatch for data that isn't modelled yet, and `.model_dump()` for a
-plain-dict view. See the [migration notes](#migrating-from-1x-to-20).
+plain-dict view.
 
 A couple of endpoints still return raw dicts: `get_delivery_scenario` and
 `get_delivery_position` (only populated while a delivery is en route, so there is
 no stable shape to model), and `get_article_category` (appears to have been
 removed by Picnic — use `get_article(id, add_category=True)` instead).
 
-## Searching for an article
+If you are upgrading from 1.x, see the [migration notes](#migrating-from-1x-to-20).
+
+## Usage
+
+### Searching for an article
 
 ```python
 result = picnic.search('coffee')          # -> SearchResult
@@ -81,7 +85,7 @@ result.items[0].raw                         # original tile payload
 Search tiles only carry `display_price` (the price shown, in integer cents) — the
 raw payload has no separate `price` key — so read `display_price`.
 
-## Get article by ID
+### Get article by ID
 
 ```python
 article = picnic.get_article("s1019822")   # -> Article | None
@@ -104,10 +108,66 @@ article = picnic.get_article("s1019822", add_category=True)
 article.category.name                       # 'Koffiebonen'
 ```
 
-## Get article by GTIN (EAN)
+### Get article by GTIN (EAN)
+
 ```python
 article = picnic.get_article_by_gtin("8000070025400")  # -> Article | None
 article.name                                # 'Lavazza Caffè Crema e Aroma Bohnen'
+```
+
+### Get the user
+
+```python
+user = picnic.get_user()          # -> User
+user.contact_email                  # 'you@example.com'
+user.address.city                   # 'Amsterdam'
+user.total_deliveries               # 25
+```
+
+### Check cart
+
+```python
+cart = picnic.get_cart()          # -> Cart
+cart.total_count                    # 3
+cart.total_price                    # 1234  (integer cents)
+cart.items[0].items[0].name         # 'Lavazza Caffè Crema e Aroma Bohnen'
+cart.raw                            # original cart payload
+```
+
+### Manipulating your cart
+
+All of these methods return the updated `Cart`.
+
+```python
+# Add product with ID "s1019822" 2x
+picnic.add_product("s1019822", 2)
+
+# Remove product with ID "s1019822" 1x
+picnic.remove_product("s1019822")
+
+# Clear your cart
+picnic.clear_cart()
+```
+
+### See upcoming deliveries
+
+```python
+deliveries = picnic.get_current_deliveries()   # -> list[DeliverySummary]
+deliveries[0].delivery_id
+deliveries[0].status                             # 'CURRENT'
+deliveries[0].slot.window_start                  # '2025-04-29T17:15:00.000+02:00'
+
+# Full detail (order lines, articles, payment info) for one delivery:
+delivery = picnic.get_delivery(deliveries[0].delivery_id)   # -> Delivery
+delivery.orders[0].items[0].items[0].name
+```
+
+### See available delivery slots
+
+```python
+slots = picnic.get_delivery_slots()   # -> DeliverySlots
+slots.delivery_slots[0].window_start    # '2025-04-29T17:15:00.000+02:00'
+slots.selected_slot.slot_id
 ```
 
 ## Migrating from 1.x to 2.0
@@ -128,57 +188,3 @@ article.name                                # 'Lavazza Caffè Crema e Aroma Bohn
 - `get_delivery_scenario()`, `get_delivery_position()` and `get_article_category()`
   still return raw dicts (see [Typed models](#typed-models-2x)).
 - Any field you need that isn't modelled yet is available on `model.raw`.
-
-## Get the user
-
-```python
-user = picnic.get_user()          # -> User
-user.contact_email                  # 'you@example.com'
-user.address.city                   # 'Amsterdam'
-user.total_deliveries               # 25
-```
-
-## Check cart
-
-```python
-cart = picnic.get_cart()          # -> Cart
-cart.total_count                    # 3
-cart.total_price                    # 1234  (integer cents)
-cart.items[0].items[0].name         # 'Lavazza Caffè Crema e Aroma Bohnen'
-cart.raw                            # original cart payload
-```
-
-## Manipulating your cart
-All of these methods return the updated `Cart`.
-
-```python
-# Add product with ID "s1019822" 2x
-picnic.add_product("s1019822", 2)
-
-# Remove product with ID "s1019822" 1x
-picnic.remove_product("s1019822")
-
-# Clear your cart
-picnic.clear_cart()
-```
-
-## See upcoming deliveries
-
-```python
-deliveries = picnic.get_current_deliveries()   # -> list[DeliverySummary]
-deliveries[0].delivery_id
-deliveries[0].status                             # 'CURRENT'
-deliveries[0].slot.window_start                  # '2025-04-29T17:15:00.000+02:00'
-
-# Full detail (order lines, articles, payment info) for one delivery:
-delivery = picnic.get_delivery(deliveries[0].delivery_id)   # -> Delivery
-delivery.orders[0].items[0].items[0].name
-```
-
-## See available delivery slots
-
-```python
-slots = picnic.get_delivery_slots()   # -> DeliverySlots
-slots.delivery_slots[0].window_start    # '2025-04-29T17:15:00.000+02:00'
-slots.selected_slot.slot_id
-```
