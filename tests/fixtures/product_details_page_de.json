@@ -62,6 +62,16 @@
              "color": "#333333"
             },
             "type": "RICH_TEXT"
+           },
+           {
+            "markdown": "€0.95/L",
+            "numberOfLines": 1,
+            "textAttributes": {
+             "size": 16,
+             "weight": "REGULAR",
+             "color": "#333333"
+            },
+            "type": "RICH_TEXT"
            }
           ]
          },
@@ -159,6 +169,39 @@
           }
          ]
         }
+       }
+      }
+     },
+     {
+      "type": "image_gallery",
+      "image_id": "6a6e61db185579649d0054e188386e2ea70238fc2f1f8a08bdf2cf569070000"
+     },
+     {
+      "type": "PML",
+      "id": "product-page-description",
+      "pml": {
+       "component": {
+        "type": "STACK",
+        "children": [
+         {
+          "markdown": "Perfekt für den morgendlichen Kaffee oder das Müsli. Diese Milch ist lange haltbar und bleibt auch ohne Kühlschrank frisch.",
+          "type": "RICH_TEXT"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "type": "PML",
+      "id": "product-page-highlights",
+      "pml": {
+       "component": {
+        "type": "STACK",
+        "children": [
+         {"markdown": "Lange **haltbar**", "type": "RICH_TEXT"},
+         {"markdown": "**3,5%** Fettanteil", "type": "RICH_TEXT"},
+         {"markdown": "#(GREEN1)**Ohne** Gentechnik#(GREEN1)", "type": "RICH_TEXT"}
+        ]
        }
       }
      }

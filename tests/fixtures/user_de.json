@@ -1,0 +1,56 @@
+{
+  "user_id": "REDACTED",
+  "firstname": "REDACTED",
+  "lastname": "REDACTED",
+  "address": {
+    "id": "REDACTED",
+    "house_number": 0,
+    "house_number_ext": "REDACTED",
+    "postcode": "REDACTED",
+    "street": "REDACTED",
+    "city": "REDACTED"
+  },
+  "phone": "REDACTED",
+  "contact_email": "REDACTED",
+  "feature_toggles": [],
+  "subscriptions": [
+    {
+      "list_id": "MISC",
+      "subscribed": true,
+      "name": "Weitere E-Mails"
+    }
+  ],
+  "push_subscriptions": [
+    {
+      "list_id": "PUSH_MISC",
+      "subscribed": true,
+      "name": "Updates"
+    }
+  ],
+  "customer_type": "CONSUMER",
+  "household_details": {
+    "adults": 2,
+    "children": 0,
+    "cats": 0,
+    "dogs": 0,
+    "author": "REDACTED",
+    "last_edit_ts": 1708445980741
+  },
+  "check_general_consent": false,
+  "placed_order": true,
+  "received_delivery": true,
+  "consent_decisions": {
+    "MISC_COMMERCIAL_ADS": false,
+    "MISC_COMMERCIAL_EMAILS": true,
+    "MISC_COMMERCIAL_MESSAGES": true,
+    "MISC_READ_ADVERTISING_ID": true,
+    "MISC_WHATS_APP_COMMUNICATION": false,
+    "PERSONALIZED_PROMOTIONS": true,
+    "PERSONALIZED_RANKING_CONSENT": true,
+    "POST_MAIL": true,
+    "PURCHASES_CATEGORY_CONSENT": true,
+    "WEEKLY_COMMERCIAL_EMAILS": true
+  },
+  "total_deliveries": 1,
+  "completed_deliveries": 1
+}

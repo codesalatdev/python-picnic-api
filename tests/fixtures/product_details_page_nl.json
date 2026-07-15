@@ -180,6 +180,38 @@
         }
        }
       }
+     },
+     {
+      "type": "image_gallery",
+      "image_id": "1be1d07e57ea3991445a91960535a2b4593caf75c7e157a42a19ba61aaf00000"
+     },
+     {
+      "type": "PML",
+      "id": "product-page-description",
+      "pml": {
+       "component": {
+        "type": "STACK",
+        "children": [
+         {
+          "markdown": "Onze aromatische filterkoffie met een volle smaak en een aangenaam aroma.",
+          "type": "RICH_TEXT"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "type": "PML",
+      "id": "product-page-highlights",
+      "pml": {
+       "component": {
+        "type": "STACK",
+        "children": [
+         {"markdown": "**Volle** smaak", "type": "RICH_TEXT"},
+         {"markdown": "Snelfiltermaling", "type": "RICH_TEXT"}
+        ]
+       }
+      }
      }
     ]
    }

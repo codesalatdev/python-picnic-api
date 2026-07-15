@@ -1,0 +1,226 @@
+{
+  "body": {
+    "child": {
+      "child": {
+        "children": [
+          {
+            "type": "PML",
+            "id": "product-details-page-root-main-container",
+            "size": {
+              "crossAxis": "12g",
+              "isMainAxisEstimated": true,
+              "mainAxis": 100
+            },
+            "pml": {
+              "pmlVersion": "0.1.0",
+              "images": {},
+              "component": {
+                "accessible": false,
+                "axis": "VERTICAL",
+                "padding": {
+                  "bottom": 16,
+                  "left": 16,
+                  "right": 16,
+                  "top": 0
+                },
+                "spacing": 4,
+                "type": "STACK",
+                "children": [
+                  {
+                    "accessibilityRole": "header",
+                    "accessible": true,
+                    "type": "CONTAINER",
+                    "child": {
+                      "markdown": "#(#333333)Orange#(#333333)",
+                      "numberOfLines": 2,
+                      "textType": "HEADER1",
+                      "type": "RICH_TEXT"
+                    }
+                  },
+                  {
+                    "markdown": "Fanta",
+                    "numberOfLines": 1,
+                    "textAttributes": {
+                      "size": 16,
+                      "weight": "REGULAR",
+                      "color": "#333333"
+                    },
+                    "type": "RICH_TEXT"
+                  },
+                  {
+                    "alignment": "CENTER",
+                    "axis": "HORIZONTAL",
+                    "spacing": 4,
+                    "type": "STACK",
+                    "children": [
+                      {
+                        "backgroundColor": "#9F7234",
+                        "borderRadius": 6,
+                        "overflow": "hidden",
+                        "padding": {
+                          "bottom": 1,
+                          "left": 5,
+                          "right": 5,
+                          "top": 1
+                        },
+                        "type": "CONTAINER",
+                        "child": {
+                          "markdown": "#(#ffffff)XL#(#ffffff)",
+                          "textAttributes": {
+                            "size": 12,
+                            "weight": "BOLD",
+                            "color": "#333333"
+                          },
+                          "type": "RICH_TEXT"
+                        }
+                      },
+                      {
+                        "backgroundColor": "#333333",
+                        "borderRadius": 4,
+                        "height": 4,
+                        "width": 4,
+                        "type": "CONTAINER",
+                        "child": null
+                      },
+                      {
+                        "markdown": "#(#333333)4 x 1.5 liter#(#333333)",
+                        "numberOfLines": 1,
+                        "textAttributes": {
+                          "size": 16,
+                          "weight": "REGULAR",
+                          "color": "#333333"
+                        },
+                        "type": "RICH_TEXT"
+                      },
+                      {
+                        "backgroundColor": "#333333",
+                        "borderRadius": 4,
+                        "height": 4,
+                        "width": 4,
+                        "type": "CONTAINER",
+                        "child": null
+                      },
+                      {
+                        "flexShrink": 1,
+                        "markdown": "€1.73/l",
+                        "numberOfLines": 1,
+                        "textAttributes": {
+                          "size": 16,
+                          "weight": "REGULAR",
+                          "color": "#333333"
+                        },
+                        "type": "RICH_TEXT"
+                      }
+                    ]
+                  },
+                  {
+                    "alignment": "CENTER",
+                    "axis": "HORIZONTAL",
+                    "distribution": "START",
+                    "spacing": 6,
+                    "type": "STACK",
+                    "children": [
+                      {
+                        "accessibilityLabel": "voor, 10 € 35 cent",
+                        "accessible": true,
+                        "type": "CONTAINER",
+                        "child": {
+                          "color": "#333333",
+                          "fontSize": 28,
+                          "price": 1035.0,
+                          "type": "PRICE"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "image_gallery",
+            "image_id": "17ac97e596b76d51ac4c3c3fc120757947d8da533f12a199e87682fcbb719c2a"
+          },
+          {
+            "type": "PML",
+            "id": "category-button",
+            "analytics": {
+              "contexts": [
+                {
+                  "data": {
+                    "type": "open_category_button",
+                    "template_id": "product-page-actions"
+                  },
+                  "schema": "iglu:tech.picnic.snowplow.analytics/pml_component/jsonschema/1-1-0"
+                },
+                {
+                  "data": {
+                    "selling_unit_id": "s1017747"
+                  },
+                  "schema": "iglu:tech.picnic.snowplow.analytics/product_details_page/jsonschema/1-0-0"
+                }
+              ]
+            },
+            "size": {
+              "crossAxis": "12g",
+              "isMainAxisEstimated": true,
+              "mainAxis": 100
+            },
+            "pml": {
+              "pmlVersion": "0.1.0",
+              "images": {},
+              "component": {
+                "backgroundColor": "#ffffff",
+                "borderRadius": 8,
+                "onPress": {
+                  "actionType": "OPEN",
+                  "target": "app.picnic://categories/21736/l2/21876/l3/22553"
+                },
+                "type": "TOUCHABLE",
+                "child": {
+                  "alignment": "CENTER",
+                  "axis": "HORIZONTAL",
+                  "padding": {
+                    "bottom": 8,
+                    "left": 8,
+                    "right": 8,
+                    "top": 8
+                  },
+                  "spacing": 4,
+                  "type": "STACK",
+                  "children": [
+                    {
+                      "padding": {
+                        "bottom": 4,
+                        "left": 4,
+                        "right": 4,
+                        "top": 4
+                      },
+                      "type": "CONTAINER",
+                      "child": {
+                        "color": "#5b534e",
+                        "height": 16,
+                        "iconKey": "grid",
+                        "width": 16,
+                        "type": "ICON"
+                      }
+                    },
+                    {
+                      "markdown": "#(#5b534e)Bekijk categorie#(#5b534e)",
+                      "textAttributes": {
+                        "size": 16,
+                        "weight": "MEDIUM",
+                        "color": "#333333"
+                      },
+                      "type": "RICH_TEXT"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

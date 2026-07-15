@@ -1,0 +1,389 @@
+{
+  "body": {
+    "child": {
+      "child": {
+        "children": [
+          {
+            "type": "PML",
+            "id": "product-details-page-root-main-container",
+            "size": {
+              "crossAxis": "12g",
+              "isMainAxisEstimated": true,
+              "mainAxis": 100
+            },
+            "pml": {
+              "pmlVersion": "0.1.0",
+              "images": {},
+              "component": {
+                "accessible": false,
+                "axis": "VERTICAL",
+                "padding": {
+                  "bottom": 16,
+                  "left": 16,
+                  "right": 16,
+                  "top": 0
+                },
+                "spacing": 4,
+                "type": "STACK",
+                "children": [
+                  {
+                    "accessibilityRole": "header",
+                    "accessible": true,
+                    "type": "CONTAINER",
+                    "child": {
+                      "markdown": "#(#333333)Spaghetti#(#333333)",
+                      "numberOfLines": 2,
+                      "textType": "HEADER1",
+                      "type": "RICH_TEXT"
+                    }
+                  },
+                  {
+                    "markdown": "Barilla",
+                    "numberOfLines": 1,
+                    "textAttributes": {
+                      "size": 16,
+                      "weight": "REGULAR",
+                      "color": "#333333"
+                    },
+                    "type": "RICH_TEXT"
+                  },
+                  {
+                    "alignment": "CENTER",
+                    "axis": "HORIZONTAL",
+                    "spacing": 4,
+                    "type": "STACK",
+                    "children": [
+                      {
+                        "markdown": "#(#333333)4 x 500g#(#333333)",
+                        "numberOfLines": 1,
+                        "textAttributes": {
+                          "size": 16,
+                          "weight": "REGULAR",
+                          "color": "#333333"
+                        },
+                        "type": "RICH_TEXT"
+                      },
+                      {
+                        "backgroundColor": "#333333",
+                        "borderRadius": 4,
+                        "height": 4,
+                        "width": 4,
+                        "type": "CONTAINER",
+                        "child": null
+                      },
+                      {
+                        "flexShrink": 1,
+                        "markdown": "€3.70/kg",
+                        "numberOfLines": 1,
+                        "textAttributes": {
+                          "size": 16,
+                          "weight": "REGULAR",
+                          "color": "#333333"
+                        },
+                        "type": "RICH_TEXT"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "image_gallery",
+            "image_id": "34af850034a55559726b8e72d7695c3c944cf0b4205346526c96840f44ab221c"
+          },
+          {
+            "type": "PML",
+            "id": "product-page-description",
+            "size": {
+              "crossAxis": "12g"
+            },
+            "pml": {
+              "pmlVersion": "0.1.0",
+              "images": {},
+              "component": {
+                "axis": "VERTICAL",
+                "padding": {
+                  "bottom": 16,
+                  "top": 16
+                },
+                "type": "STACK",
+                "children": [
+                  {
+                    "markdown": "Spaghetti aus hochwertigem Hartweizengrieß bietet eine perfekte al dente Textur und ist vielseitig in der Küche einsetzbar. \nOb klassisch mit Tomatensauce oder kreativ mit Gemüse und Pesto, diese Spaghetti sind die ideale Grundlage für köstliche Gerichte.",
+                    "textAttributes": {
+                      "size": 16,
+                      "weight": "REGULAR",
+                      "color": "#333333"
+                    },
+                    "type": "RICH_TEXT"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "PML",
+            "id": "product-page-highlights",
+            "size": {
+              "crossAxis": "12g"
+            },
+            "pml": {
+              "pmlVersion": "0.1.0",
+              "images": {},
+              "component": {
+                "axis": "VERTICAL",
+                "type": "STACK",
+                "children": [
+                  {
+                    "alignment": "CENTER",
+                    "axis": "HORIZONTAL",
+                    "padding": {
+                      "bottom": 22,
+                      "top": 22
+                    },
+                    "spacing": 10,
+                    "width": "100%",
+                    "type": "STACK",
+                    "children": [
+                      {
+                        "height": 22,
+                        "iconKey": "checkbox",
+                        "width": 22,
+                        "type": "ICON"
+                      },
+                      {
+                        "markdown": "**Lange** Pasta",
+                        "textAttributes": {
+                          "size": 16,
+                          "weight": "REGULAR",
+                          "color": "#333333"
+                        },
+                        "type": "RICH_TEXT"
+                      }
+                    ]
+                  },
+                  {
+                    "backgroundColor": "#f8f5f2",
+                    "height": 1,
+                    "width": "100%",
+                    "type": "CONTAINER",
+                    "child": null
+                  },
+                  {
+                    "alignment": "CENTER",
+                    "axis": "HORIZONTAL",
+                    "padding": {
+                      "bottom": 22,
+                      "top": 22
+                    },
+                    "spacing": 10,
+                    "width": "100%",
+                    "type": "STACK",
+                    "children": [
+                      {
+                        "height": 22,
+                        "iconKey": "checklist",
+                        "width": 22,
+                        "type": "ICON"
+                      },
+                      {
+                        "markdown": "Aus **Hartweizengrieß**",
+                        "textAttributes": {
+                          "size": 16,
+                          "weight": "REGULAR",
+                          "color": "#333333"
+                        },
+                        "type": "RICH_TEXT"
+                      }
+                    ]
+                  },
+                  {
+                    "backgroundColor": "#f8f5f2",
+                    "height": 1,
+                    "width": "100%",
+                    "type": "CONTAINER",
+                    "child": null
+                  },
+                  {
+                    "alignment": "CENTER",
+                    "axis": "HORIZONTAL",
+                    "padding": {
+                      "bottom": 22,
+                      "top": 22
+                    },
+                    "spacing": 10,
+                    "width": "100%",
+                    "type": "STACK",
+                    "children": [
+                      {
+                        "height": 22,
+                        "iconKey": "clock",
+                        "width": 22,
+                        "type": "ICON"
+                      },
+                      {
+                        "markdown": "**Kochzeit** ca. 10 Minuten",
+                        "textAttributes": {
+                          "size": 16,
+                          "weight": "REGULAR",
+                          "color": "#333333"
+                        },
+                        "type": "RICH_TEXT"
+                      }
+                    ]
+                  },
+                  {
+                    "backgroundColor": "#f8f5f2",
+                    "height": 1,
+                    "width": "100%",
+                    "type": "CONTAINER",
+                    "child": null
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "PML",
+            "id": "category-button",
+            "analytics": {
+              "contexts": [
+                {
+                  "data": {
+                    "type": "open_category_button",
+                    "template_id": "product-page-actions"
+                  },
+                  "schema": "iglu:tech.picnic.snowplow.analytics/pml_component/jsonschema/1-1-0"
+                },
+                {
+                  "data": {
+                    "selling_unit_id": "s1050481"
+                  },
+                  "schema": "iglu:tech.picnic.snowplow.analytics/product_details_page/jsonschema/1-0-0"
+                }
+              ]
+            },
+            "size": {
+              "crossAxis": "12g",
+              "isMainAxisEstimated": true,
+              "mainAxis": 100
+            },
+            "pml": {
+              "pmlVersion": "0.1.0",
+              "images": {},
+              "component": {
+                "backgroundColor": "#ffffff",
+                "borderRadius": 8,
+                "onPress": {
+                  "actionType": "OPEN",
+                  "target": "app.picnic://categories/19369/l2/19489/l3/20297"
+                },
+                "type": "TOUCHABLE",
+                "child": {
+                  "alignment": "CENTER",
+                  "axis": "HORIZONTAL",
+                  "padding": {
+                    "bottom": 8,
+                    "left": 8,
+                    "right": 8,
+                    "top": 8
+                  },
+                  "spacing": 4,
+                  "type": "STACK",
+                  "children": [
+                    {
+                      "padding": {
+                        "bottom": 4,
+                        "left": 4,
+                        "right": 4,
+                        "top": 4
+                      },
+                      "type": "CONTAINER",
+                      "child": {
+                        "color": "#5b534e",
+                        "height": 16,
+                        "iconKey": "grid",
+                        "width": 16,
+                        "type": "ICON"
+                      }
+                    },
+                    {
+                      "markdown": "#(#5b534e)Zur Kategorie#(#5b534e)",
+                      "textAttributes": {
+                        "size": 16,
+                        "weight": "MEDIUM",
+                        "color": "#333333"
+                      },
+                      "type": "RICH_TEXT"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "PML",
+            "id": "product-page-bundle-item-s1018999",
+            "pml": {
+              "component": {
+                "type": "STACK",
+                "children": [
+                  {
+                    "type": "PRICE",
+                    "price": 199
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "PML",
+            "id": "product-page-bundle-item-s1050480",
+            "pml": {
+              "component": {
+                "type": "STACK",
+                "children": [
+                  {
+                    "type": "PRICE",
+                    "price": 195
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "PML",
+            "id": "product-page-bundle-item-s1115047",
+            "pml": {
+              "component": {
+                "type": "STACK",
+                "children": [
+                  {
+                    "type": "PRICE",
+                    "price": 189
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "PML",
+            "id": "product-page-bundle-item-s1050481",
+            "pml": {
+              "component": {
+                "type": "STACK",
+                "children": [
+                  {
+                    "type": "PRICE",
+                    "price": 185
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
