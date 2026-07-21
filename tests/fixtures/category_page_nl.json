@@ -1,0 +1,69 @@
+{
+ "children": [
+  {
+   "type": "PML",
+   "id": "vertical-article-tiles-sub-header-22600",
+   "size": {
+    "crossAxis": "12g"
+   },
+   "pml": {
+    "pmlVersion": "0.1.0",
+    "images": {},
+    "component": {
+     "accessibilityActions": [],
+     "accessibilityLabel": "Regular",
+     "accessibilityRole": "header",
+     "accessible": true,
+     "height": null,
+     "padding": {
+      "bottom": 8,
+      "left": 16,
+      "right": 16,
+      "top": 16
+     },
+     "width": "100%",
+     "type": "CONTAINER",
+     "child": {
+      "axis": "VERTICAL",
+      "distribution": "END",
+      "height": "100%",
+      "spacing": 2,
+      "type": "STACK",
+      "children": [
+       {
+        "alignment": "CENTER",
+        "axis": "HORIZONTAL",
+        "type": "STACK",
+        "children": [
+         {
+          "alignment": "CENTER",
+          "axis": "HORIZONTAL",
+          "spacing": 4,
+          "type": "STACK",
+          "children": [
+           {
+            "padding": {
+             "bottom": 2.5,
+             "top": 2.5
+            },
+            "type": "CONTAINER",
+            "child": {
+             "analytics": null,
+             "markdown": "#(#333333)Regular#(#333333)",
+             "numberOfLines": 1,
+             "textAlignment": "START",
+             "textType": "HEADER4",
+             "type": "RICH_TEXT"
+            }
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  }
+ ]
+}

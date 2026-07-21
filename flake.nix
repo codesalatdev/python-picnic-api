@@ -10,6 +10,7 @@
       in {
         devShell = pkgs.mkShell { buildInputs = with pkgs; [
           python313Packages.requests
+          python313Packages.pydantic
           python313Packages.python-lsp-ruff
           python313Packages.ruff
           python313Packages.typing-extensions

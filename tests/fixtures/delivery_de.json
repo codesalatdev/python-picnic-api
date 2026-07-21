@@ -1,0 +1,91 @@
+{
+ "type": "DELIVERY",
+ "delivery_id": "d0000000000",
+ "creation_time": "2026-07-14T22:36:46.115+02:00",
+ "slot": {
+  "slot_id": "s000000000000000000000000",
+  "hub_id": "ABC",
+  "fc_id": "FC0",
+  "window_start": "2026-07-15T14:15:00.000+02:00",
+  "window_end": "2026-07-15T16:15:00.000+02:00",
+  "cut_off_time": "2026-07-14T23:00:00.000+02:00",
+  "is_available": true,
+  "selected": true,
+  "reserved": true,
+  "slot_characteristics": []
+ },
+ "status": "CURRENT",
+ "orders": [
+  {
+   "type": "ORDER",
+   "id": "000-000-0000",
+   "items": [
+    {
+     "type": "ORDER_LINE",
+     "id": "2528",
+     "items": [
+      {
+       "type": "ORDER_ARTICLE",
+       "id": "s1021945",
+       "name": "Edeka Herzstücke Brioche Burger Buns",
+       "image_ids": [
+        "6eec280a71983e86775ddbd0975a42adaf6e954f9380960c37d2c2163c2c5e99"
+       ],
+       "unit_quantity": "4 Stück",
+       "price": 432199,
+       "max_count": 99,
+       "perishable": true,
+       "selling_unit_contexts_for_mutations": [],
+       "analytics_contexts": [],
+       "decorators": [
+        {
+         "type": "IMMUTABLE"
+        },
+        {
+         "type": "QUANTITY",
+         "quantity": 1
+        },
+        {
+         "type": "UNIT_QUANTITY",
+         "unit_quantity_text": "4 Stück"
+        }
+       ]
+      }
+     ],
+     "display_price": 169,
+     "price": 169
+    }
+   ],
+   "slot_selector_message": null,
+   "total_price": 4996,
+   "checkout_total_price": 4996,
+   "total_savings": 684,
+   "total_deposit": 39,
+   "cancellable": true,
+   "transaction_info": {
+    "bank_id": null,
+    "payment_type": "DIRECT_DEBIT",
+    "redacted_iban": "DE00 **** **** **00",
+    "refund_account": false
+   },
+   "creation_time": "2026-07-14T22:36:46.131+02:00",
+   "status": "CURRENT",
+   "deposit_breakdown": [
+    {
+     "type": "BAG",
+     "value": 39,
+     "count": 1
+    }
+   ],
+   "decorator_overrides": {},
+   "fees": [],
+   "basket_sections": [],
+   "analytics_context_data": {},
+   "membership_savings": 0
+  }
+ ],
+ "returned_containers": [],
+ "parcels": [],
+ "id": "d0000000000",
+ "error": {}
+}

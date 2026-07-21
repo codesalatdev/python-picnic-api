@@ -1,0 +1,32 @@
+{
+  "delivery_slots": [
+    {
+      "slot_id": "REDACTED",
+      "hub_id": "REDACTED",
+      "fc_id": "REDACTED",
+      "window_start": "2026-07-16T11:00:00.000+02:00",
+      "window_end": "2026-07-16T13:00:00.000+02:00",
+      "cut_off_time": "2026-07-15T13:00:00.000+02:00",
+      "is_available": true,
+      "selected": false,
+      "reserved": false,
+      "slot_characteristics": []
+    },
+    {
+      "slot_id": "REDACTED",
+      "hub_id": "REDACTED",
+      "fc_id": "REDACTED",
+      "window_start": "2026-07-16T17:15:00.000+02:00",
+      "window_end": "2026-07-16T19:15:00.000+02:00",
+      "cut_off_time": "2026-07-15T23:00:00.000+02:00",
+      "is_available": true,
+      "selected": false,
+      "reserved": false,
+      "slot_characteristics": []
+    }
+  ],
+  "selected_slot": {
+    "slot_id": "REDACTED",
+    "state": "IMPLICIT"
+  }
+}

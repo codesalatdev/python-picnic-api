@@ -1,0 +1,62 @@
+{
+  "type": "ORDER",
+  "id": "REDACTED",
+  "items": [],
+  "delivery_slots": [
+    {
+      "slot_id": "REDACTED",
+      "hub_id": "REDACTED",
+      "fc_id": "REDACTED",
+      "window_start": "2026-07-16T11:00:00.000+02:00",
+      "window_end": "2026-07-16T13:00:00.000+02:00",
+      "cut_off_time": "2026-07-15T13:00:00.000+02:00",
+      "is_available": true,
+      "selected": false,
+      "reserved": false,
+      "minimum_order_value": 4500,
+      "slot_characteristics": []
+    },
+    {
+      "slot_id": "REDACTED",
+      "hub_id": "REDACTED",
+      "fc_id": "REDACTED",
+      "window_start": "2026-07-16T17:15:00.000+02:00",
+      "window_end": "2026-07-16T19:15:00.000+02:00",
+      "cut_off_time": "2026-07-15T23:00:00.000+02:00",
+      "is_available": true,
+      "selected": false,
+      "reserved": false,
+      "minimum_order_value": 4500,
+      "slot_characteristics": []
+    }
+  ],
+  "selected_slot": {
+    "slot_id": "REDACTED",
+    "state": "IMPLICIT"
+  },
+  "slot_selector_message": null,
+  "total_count": 0,
+  "total_price": 0,
+  "checkout_total_price": 0,
+  "mts": 1784083314921,
+  "deposit_breakdown": [],
+  "decorator_overrides": {
+    "s1021945": [
+      {
+        "type": "UNIT_QUANTITY",
+        "unit_quantity_text": "4 Stück"
+      },
+      {
+        "type": "ORDERED_QUANTITY",
+        "quantity": 1,
+        "image_id": "6eec280a71983e86775ddbd0975a42adaf6e954f9380960c37d2c2163c2c5e99"
+      }
+    ]
+  },
+  "fees": [],
+  "state_token": "REDACTED",
+  "basket_sections": [],
+  "analytics_context_data": {},
+  "show_create_sellable_banner": false,
+  "membership_savings": 0
+}

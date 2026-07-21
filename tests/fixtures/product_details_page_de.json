@@ -1,0 +1,212 @@
+{
+ "body": {
+  "child": {
+   "child": {
+    "children": [
+     {
+      "type": "PML",
+      "id": "product-details-page-root-main-container",
+      "size": {
+       "crossAxis": "12g",
+       "isMainAxisEstimated": true,
+       "mainAxis": 100
+      },
+      "pml": {
+       "pmlVersion": "0.1.0",
+       "images": {},
+       "component": {
+        "accessible": false,
+        "axis": "VERTICAL",
+        "padding": {
+         "bottom": 16,
+         "left": 16,
+         "right": 16,
+         "top": 0
+        },
+        "spacing": 4,
+        "type": "STACK",
+        "children": [
+         {
+          "accessibilityRole": "header",
+          "accessible": true,
+          "type": "CONTAINER",
+          "child": {
+           "markdown": "#(#333333)H-Milch 3,5%#(#333333)",
+           "numberOfLines": 2,
+           "textType": "HEADER1",
+           "type": "RICH_TEXT"
+          }
+         },
+         {
+          "markdown": "Gut&Günstig",
+          "numberOfLines": 1,
+          "textAttributes": {
+           "size": 16,
+           "weight": "REGULAR",
+           "color": "#333333"
+          },
+          "type": "RICH_TEXT"
+         },
+         {
+          "alignment": "CENTER",
+          "axis": "HORIZONTAL",
+          "spacing": 4,
+          "type": "STACK",
+          "children": [
+           {
+            "markdown": "#(#333333)1L#(#333333)",
+            "numberOfLines": 1,
+            "textAttributes": {
+             "size": 16,
+             "weight": "REGULAR",
+             "color": "#333333"
+            },
+            "type": "RICH_TEXT"
+           },
+           {
+            "markdown": "€0.95/L",
+            "numberOfLines": 1,
+            "textAttributes": {
+             "size": 16,
+             "weight": "REGULAR",
+             "color": "#333333"
+            },
+            "type": "RICH_TEXT"
+           }
+          ]
+         },
+         {
+          "alignment": "CENTER",
+          "axis": "HORIZONTAL",
+          "distribution": "START",
+          "spacing": 6,
+          "type": "STACK",
+          "children": [
+           {
+            "color": "#333333",
+            "fontSize": 28,
+            "price": 95,
+            "type": "PRICE"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "type": "PML",
+      "id": "category-button",
+      "analytics": {
+       "contexts": [
+        {
+         "data": {
+          "type": "open_category_button",
+          "template_id": "product-page-actions"
+         },
+         "schema": "iglu:tech.picnic.snowplow.analytics/pml_component/jsonschema/1-1-0"
+        },
+        {
+         "data": {
+          "selling_unit_id": "s1018620"
+         },
+         "schema": "iglu:tech.picnic.snowplow.analytics/product_details_page/jsonschema/1-0-0"
+        }
+       ]
+      },
+      "size": {
+       "crossAxis": "12g",
+       "isMainAxisEstimated": true,
+       "mainAxis": 100
+      },
+      "pml": {
+       "pmlVersion": "0.1.0",
+       "images": {},
+       "component": {
+        "backgroundColor": "#ffffff",
+        "borderRadius": 8,
+        "onPress": {
+         "actionType": "OPEN",
+         "target": "app.picnic://categories/24410/l2/19400/l3/19626"
+        },
+        "type": "TOUCHABLE",
+        "child": {
+         "alignment": "CENTER",
+         "axis": "HORIZONTAL",
+         "padding": {
+          "bottom": 8,
+          "left": 8,
+          "right": 8,
+          "top": 8
+         },
+         "spacing": 4,
+         "type": "STACK",
+         "children": [
+          {
+           "padding": {
+            "bottom": 4,
+            "left": 4,
+            "right": 4,
+            "top": 4
+           },
+           "type": "CONTAINER",
+           "child": {
+            "color": "#5b534e",
+            "height": 16,
+            "iconKey": "grid",
+            "width": 16,
+            "type": "ICON"
+           }
+          },
+          {
+           "markdown": "#(#5b534e)Zur Kategorie#(#5b534e)",
+           "textAttributes": {
+            "size": 16,
+            "weight": "MEDIUM",
+            "color": "#333333"
+           },
+           "type": "RICH_TEXT"
+          }
+         ]
+        }
+       }
+      }
+     },
+     {
+      "type": "image_gallery",
+      "image_id": "6a6e61db185579649d0054e188386e2ea70238fc2f1f8a08bdf2cf569070000"
+     },
+     {
+      "type": "PML",
+      "id": "product-page-description",
+      "pml": {
+       "component": {
+        "type": "STACK",
+        "children": [
+         {
+          "markdown": "Perfekt für den morgendlichen Kaffee oder das Müsli. Diese Milch ist lange haltbar und bleibt auch ohne Kühlschrank frisch.",
+          "type": "RICH_TEXT"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "type": "PML",
+      "id": "product-page-highlights",
+      "pml": {
+       "component": {
+        "type": "STACK",
+        "children": [
+         {"markdown": "Lange **haltbar**", "type": "RICH_TEXT"},
+         {"markdown": "**3,5%** Fettanteil", "type": "RICH_TEXT"},
+         {"markdown": "#(GREEN1)**Ohne** Gentechnik#(GREEN1)", "type": "RICH_TEXT"}
+        ]
+       }
+      }
+     }
+    ]
+   }
+  }
+ }
+}
