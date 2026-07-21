@@ -162,20 +162,10 @@ def on_press_target(node) -> str | None:
     return None
 
 
-def find_nodes_by_content(node, filter: dict, limit: int | None = None) -> list[dict]:
-    """Predicate-dict search, kept for parity with the old helper.
-
-    Equivalent to ``find_all(node, match=filter, limit=limit)`` but with the
-    ``limit`` actually enforced and correct recursion into lists.
-    """
-    return find_all(node, match=filter, limit=limit)
-
-
 __all__ = [
     "walk",
     "find",
     "find_all",
-    "find_nodes_by_content",
     "strip_colors",
     "text_of",
     "accessibility_label",
