@@ -212,11 +212,13 @@ class PicnicAPI:
 
     def add_product(self, product_id: str, count: int = 1) -> Cart:
         data = {"product_id": product_id, "count": count}
-        return Cart.from_api(self._post("/cart/add_product", data, add_picnic_headers=True))
+        return Cart.from_api(self._post("/cart/add_product", data,
+                                        add_picnic_headers=True))
 
     def remove_product(self, product_id: str, count: int = 1) -> Cart:
         data = {"product_id": product_id, "count": count}
-        return Cart.from_api(self._post("/cart/remove_product", data, add_picnic_headers=True))
+        return Cart.from_api(self._post("/cart/remove_product", data,
+                                        add_picnic_headers=True))
 
     def clear_cart(self) -> Cart:
         return Cart.from_api(self._post("/cart/clear", add_picnic_headers=True))
