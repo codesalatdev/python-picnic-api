@@ -254,7 +254,8 @@ class TestClient(unittest.TestCase):
         )
         cart = self.client.get_cart()
         self.session_mock().get.assert_called_with(
-            self.expected_base_url + "/cart", headers=None
+            self.expected_base_url + "/cart",
+            headers=PICNIC_HEADERS,
         )
         self.assertEqual(cart.type, "ORDER")
         self.assertEqual(cart.total_count, 3)
@@ -267,6 +268,7 @@ class TestClient(unittest.TestCase):
         self.session_mock().post.assert_called_with(
             self.expected_base_url + "/cart/add_product",
             json={"product_id": "p3f2qa", "count": 1},
+            headers=PICNIC_HEADERS,
         )
         self.assertEqual(cart.type, "ORDER")
 
@@ -278,6 +280,7 @@ class TestClient(unittest.TestCase):
         self.session_mock().post.assert_called_with(
             self.expected_base_url + "/cart/add_product",
             json={"product_id": "gs4puhf3a", "count": 5},
+            headers=PICNIC_HEADERS,
         )
 
     def test_remove_product(self):
@@ -288,6 +291,7 @@ class TestClient(unittest.TestCase):
         self.session_mock().post.assert_called_with(
             self.expected_base_url + "/cart/remove_product",
             json={"product_id": "gs4puhf3a", "count": 5},
+            headers=PICNIC_HEADERS,
         )
 
     def test_clear_cart(self):
@@ -296,7 +300,9 @@ class TestClient(unittest.TestCase):
         )
         cart = self.client.clear_cart()
         self.session_mock().post.assert_called_with(
-            self.expected_base_url + "/cart/clear", json=None
+            self.expected_base_url + "/cart/clear",
+            json=None,
+            headers=PICNIC_HEADERS,
         )
         self.assertEqual(cart.type, "ORDER")
 
