@@ -46,5 +46,5 @@ __all__ = [
     "OrderArticle",
 ]
 __title__ = "python-picnic-api"
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 __author__ = "Mike Brink"
